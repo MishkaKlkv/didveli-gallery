@@ -14,11 +14,11 @@ import {
 } from 'rxjs';
 import {tuiIsPresent} from '@taiga-ui/cdk';
 import {BookingService} from '../services/booking.service';
-import {Booking} from '../../assets/model/booking.schema';
 import {PolymorpheusComponent} from '@tinkoff/ng-polymorpheus';
 import {SharedService} from '../shared/shared.service';
 import {TuiDialogService} from '@taiga-ui/core';
 import {AddEditBookingDialogComponent} from './add-edit-booking-dialog/add-edit-booking-dialog.component';
+import {Booking} from '../../../app/model/booking.schema';
 
 @Component({
   selector: 'app-booking',

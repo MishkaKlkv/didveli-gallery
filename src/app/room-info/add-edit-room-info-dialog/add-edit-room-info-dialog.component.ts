@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core'
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {POLYMORPHEUS_CONTEXT} from '@tinkoff/ng-polymorpheus';
 import {TuiDialogContext} from '@taiga-ui/core';
-import {Room} from '../../../assets/model/room.schema';
+import {Room} from '../../../../app/model/room.schema';
 
 @Component({
   selector: 'app-add-edit-room-info-dialog',

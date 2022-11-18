@@ -7,11 +7,11 @@ import {
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {POLYMORPHEUS_CONTEXT} from '@tinkoff/ng-polymorpheus';
 import {TuiDialogContext} from '@taiga-ui/core';
-import {Client} from '../../../assets/model/client.schema';
 import {citizenship} from '../../../assets/data/citizenship';
 import {DateHelper} from '../../shared/util/DateHelper';
 import {TUI_DEFAULT_MATCHER, tuiControlValue} from '@taiga-ui/cdk';
 import {map, Observable, of, share} from 'rxjs';
+import {Client} from '../../../../app/model/client.schema';
 
 @Component({
   selector: 'app-add-edit-client-info-dialog',

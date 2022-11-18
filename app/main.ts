@@ -1,7 +1,6 @@
 import {app, BrowserWindow, ipcMain, screen} from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
-//TODO все импорты бэка должны быть внутри app и в app/package.json (модели пришлось задублировать для работы)
 import {DataSource, Like} from "typeorm";
 import {Service} from "./model/service.schema";
 import {Room} from "./model/room.schema";
@@ -20,7 +19,7 @@ function createWindow(): BrowserWindow {
     synchronize: true,
     logging: true,
     logger: 'simple-console',
-    database: './src/assets/data/database.sqlite', //TODO надо делать path.join(app.getPath("userData'),'database.sqlite' ) иначе база будет в папке программ и возможна потеря данных при установке
+    database: path.join(app.getPath('userData'),'database.sqlite'),
     entities: [Booking, Client, Service, Room, Company],
   });
 

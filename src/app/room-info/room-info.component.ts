@@ -12,10 +12,10 @@ import {
 import {SharedService} from '../shared/shared.service';
 import {TuiDialogService} from '@taiga-ui/core';
 import {PolymorpheusComponent} from '@tinkoff/ng-polymorpheus';
-import {Room} from '../../assets/model/room.schema';
 import {RoomInfoService} from '../services/room-info.service';
 import {AddEditRoomInfoDialogComponent} from './add-edit-room-info-dialog/add-edit-room-info-dialog.component';
 import {tuiIsPresent} from '@taiga-ui/cdk';
+import {Room} from '../../../app/model/room.schema';
 
 @Component({
   selector: 'app-room-info',

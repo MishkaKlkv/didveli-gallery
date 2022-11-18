@@ -12,10 +12,10 @@ import {
 import {SharedService} from '../shared/shared.service';
 import {TuiDialogService} from '@taiga-ui/core';
 import {PolymorpheusComponent} from '@tinkoff/ng-polymorpheus';
-import {Client} from '../../assets/model/client.schema';
 import {ClientInfoService} from '../services/client-info.service';
 import {AddEditClientInfoDialogComponent} from './add-edit-client-info-dialog/add-edit-client-info-dialog.component';
 import {tuiIsPresent} from '@taiga-ui/cdk';
+import {Client} from '../../../app/model/client.schema';
 
 @Component({
   selector: 'app-client-info',

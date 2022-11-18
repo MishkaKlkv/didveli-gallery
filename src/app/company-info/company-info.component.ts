@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Company} from '../../assets/model/company.schema';
 import {CompanyInfoService} from '../services/company-info.service';
 import {TuiAlertService} from '@taiga-ui/core';
+import {Company} from '../../../app/model/company.schema';
 
 @Component({
   selector: 'app-company-info',

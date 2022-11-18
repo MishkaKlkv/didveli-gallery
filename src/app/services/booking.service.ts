@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {IpcRenderer} from 'electron';
 import {Observable, of, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
-import {Booking} from '../../assets/model/booking.schema';
+import {Booking} from '../../../app/model/booking.schema';
 
 @Injectable({
   providedIn: 'root'

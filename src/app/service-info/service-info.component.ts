@@ -1,6 +1,5 @@
 import {ChangeDetectionStrategy, Component, Inject, Injector} from '@angular/core';
 import {ServiceInfoService} from '../services/service-info.service';
-import {Service} from '../../assets/model/service.schema';
 import {
   BehaviorSubject,
   combineLatest,
@@ -16,6 +15,7 @@ import {SharedService} from '../shared/shared.service';
 import {PolymorpheusComponent} from '@tinkoff/ng-polymorpheus';
 import {AddEditServiceInfoDialogComponent} from './add-edit-service-info-dialog/add-edit-service-info-dialog.component';
 import {tuiIsPresent} from '@taiga-ui/cdk';
+import {Service} from '../../../app/model/service.schema';
 
 @Component({
   selector: 'app-service-info',

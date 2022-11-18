@@ -1,14 +1,14 @@
 import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Booking} from '../../../assets/model/booking.schema';
 import {POLYMORPHEUS_CONTEXT} from '@tinkoff/ng-polymorpheus';
 import {TuiDialogContext} from '@taiga-ui/core';
 import {DateHelper} from '../../shared/util/DateHelper';
 import {ClientInfoService} from '../../services/client-info.service';
 import {debounceTime, filter, Observable, startWith, Subject, switchMap} from 'rxjs';
-import {Client} from '../../../assets/model/client.schema';
 import {RoomInfoService} from '../../services/room-info.service';
-import {Room} from '../../../assets/model/room.schema';
+import {Client} from '../../../../app/model/client.schema';
+import {Booking} from "../../../../app/model/booking.schema";
+import {Room} from "../../../../app/model/room.schema";
 
 @Component({
   selector: 'app-add-edit-booking-dialog',
