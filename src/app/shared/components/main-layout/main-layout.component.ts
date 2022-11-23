@@ -55,7 +55,7 @@ export class MainLayoutComponent {
   }
 
   getLogoLink(company: Company): SafeUrl {
-    const objectURL = `data:image/jpeg;base64,${company.logo}`;
+    const objectURL = `data:image/jpeg;base64,${company?.logo}`;
     return this.sanitizer.bypassSecurityTrustUrl(objectURL);
   }
 
