@@ -15,7 +15,7 @@ export class SharedService {
     return this.dialogService.open<boolean>(
       new PolymorpheusComponent(YesNoConfirmComponent, this.injector),
       {
-        label: 'Confirm delete',
+        label: 'Confirm operation',
         data,
         size: `s`,
         dismissible: true

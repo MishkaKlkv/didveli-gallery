@@ -91,7 +91,7 @@ export class ServiceInfoComponent {
   }
 
   delete(service: Service): void {
-    this.sharedService.initYesNoDialog(`${service.name} service`)
+    this.sharedService.initYesNoDialog(`delete ${service.name} service`)
       .pipe(
         switchMap((res: boolean) =>
           res ? this.serviceInfoService.delete(service) : EMPTY

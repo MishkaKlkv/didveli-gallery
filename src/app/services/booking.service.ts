@@ -24,8 +24,8 @@ export class BookingService {
     }
   }
 
-  getAll(skip: number, take: number): Observable<Booking[]> {
-    return of(this.ipc.sendSync('get-bookings', skip, take)).pipe(
+  getAll(skip: number, take: number, mode: string = 'active'): Observable<Booking[]> {
+    return of(this.ipc.sendSync('get-bookings', skip, take, this.isPassiveMode(mode))).pipe(
       catchError((error: any) => throwError(error.json))
     );
   }
@@ -42,9 +42,13 @@ export class BookingService {
     ).pipe(catchError((error: any) => throwError(error.json)));
   }
 
-  getCount(): Observable<number> {
-    return of(this.ipc.sendSync('count-bookings')).pipe(
+  getCount(mode: string = 'active'): Observable<number> {
+    return of(this.ipc.sendSync('count-bookings', this.isPassiveMode(mode))).pipe(
       catchError((error: any) => throwError(error.json))
     );
+  }
+
+  private isPassiveMode(mode: string) {
+    return mode === 'passive';
   }
 }

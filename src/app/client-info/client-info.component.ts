@@ -73,7 +73,7 @@ export class ClientInfoComponent {
   }
 
   delete(client: Client): void {
-    this.sharedService.initYesNoDialog(`${client.name} ${client.surname} client`)
+    this.sharedService.initYesNoDialog(`delete ${client.name} ${client.surname} client`)
       .pipe(
         switchMap((res: boolean) =>
           res ? this.clientInfoService.delete(client) : EMPTY

@@ -24,4 +24,13 @@ export class Company {
   @Column('varchar', { length: 50 })
   email: string;
 
+  @Column({
+    nullable: true,
+    transformer: {
+      to: (value: string) => Buffer.from(value),
+      from: (value: Buffer) => value?.toString(),
+    }
+  })
+  logo: string;
+
 }

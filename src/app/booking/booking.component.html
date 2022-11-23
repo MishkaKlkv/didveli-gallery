@@ -1,4 +1,4 @@
-<ng-container *tuiLet="mode$ | async as mode">
+<ng-container *ngIf="mode">
 
   <app-header [title]="mode + ' Room'"></app-header>
 
@@ -71,6 +71,10 @@
 
                     <button tuiOption (click)="update(booking)">
                       Invoice
+                    </button>
+
+                    <button tuiOption (click)="passive(booking)">
+                      Passive
                     </button>
 
                     <button tuiOption (click)="delete(booking)">

@@ -1,4 +1,7 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
+import {CompanyInfoService} from '../../../services/company-info.service';
+import {Company} from '../../../../../app/model/company.schema';
 
 @Component({
   selector: 'app-main-layout',
@@ -6,7 +9,7 @@ import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
   styleUrls: ['./main-layout.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MainLayoutComponent implements OnInit {
+export class MainLayoutComponent {
 
   readonly tabs = [
     {
@@ -41,13 +44,19 @@ export class MainLayoutComponent implements OnInit {
     }
   ];
 
-  constructor() { }
+  //todo fix error
+  readonly company$ = this.companyService.getCompany();
 
-  ngOnInit(): void {
-  }
+  constructor(private sanitizer: DomSanitizer,
+              private readonly companyService: CompanyInfoService,) { }
 
   buildLink(iconName: string) {
     return `assets/icons/${iconName}`;
+  }
+
+  getLogoLink(company: Company): SafeUrl {
+    const objectURL = `data:image/jpeg;base64,${company.logo}`;
+    return this.sanitizer.bypassSecurityTrustUrl(objectURL);
   }
 
 }

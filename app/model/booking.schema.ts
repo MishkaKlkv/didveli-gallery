@@ -1,6 +1,7 @@
-import {Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
+import {Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
 import {Client} from './client.schema';
 import {Room} from './room.schema';
+import {Charge} from "./charge.schema";
 
 @Entity()
 export class Booking {
@@ -27,5 +28,11 @@ export class Booking {
   @Column('varchar', { length: 100, nullable: true })
   portal: string;
 
-  // bill
+  @Column('boolean', {default: false})
+  isPassive: boolean = false;
+
+  // @OneToMany(() => Charge, (charge) => charge.booking)
+  @OneToMany('Charge', 'booking')
+  @JoinColumn()
+  charges: Charge[];
 }

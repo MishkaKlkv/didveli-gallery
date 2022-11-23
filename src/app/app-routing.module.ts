@@ -12,7 +12,7 @@ import {CompanyInfoComponent} from './company-info/company-info.component';
 const routes: Routes = [
   {
     path: '', component: MainLayoutComponent, children: [
-      {path: '', redirectTo: '/', pathMatch: 'full'},
+      {path: '', redirectTo: 'booking/active', pathMatch: 'full'},
       {path: 'booking', children:
           [
             {path: 'active', component: BookingComponent},

@@ -88,7 +88,7 @@ export class RoomInfoComponent {
   }
 
   delete(room: Room): void {
-    this.sharedService.initYesNoDialog(`${room.roomNumber} room`)
+    this.sharedService.initYesNoDialog(`delete ${room.roomNumber} room`)
       .pipe(
         switchMap((res: boolean) =>
           res ? this.roomInfoService.delete(room) : EMPTY

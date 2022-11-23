@@ -7,6 +7,7 @@ import {Room} from "./model/room.schema";
 import {Client} from "./model/client.schema";
 import {Booking} from "./model/booking.schema";
 import {Company} from "./model/company.schema";
+import {Charge} from "./model/charge.schema";
 
 let win: BrowserWindow = null;
 const args = process.argv.slice(1),
@@ -20,14 +21,14 @@ function createWindow(): BrowserWindow {
     logging: true,
     logger: 'simple-console',
     database: path.join(app.getPath('userData'),'database.sqlite'),
-    entities: [Booking, Client, Service, Room, Company],
+    entities: [Booking, Client, Service, Room, Company, Charge],
   });
 
   AppDataSource.initialize()
     .then(() => {
       const bookingRepo = AppDataSource.getRepository(Booking);
 
-      ipcMain.on('get-bookings', async (event: any, _skip: number, _take: number) => {
+      ipcMain.on('get-bookings', async (event: any, _skip: number, _take: number, _isPassive: boolean) => {
         try {
           event.returnValue = await bookingRepo
             .createQueryBuilder("booking")
@@ -35,6 +36,11 @@ function createWindow(): BrowserWindow {
             .take(_take)
             .leftJoinAndSelect("booking.client", "client")
             .leftJoinAndSelect("booking.room", "room")
+            .leftJoinAndSelect("booking.charges", "charge")
+            .where({
+              isPassive: _isPassive
+            })
+            .orderBy("booking.id", "DESC")
             .getMany();
         } catch (err) {
           throw err;
@@ -61,9 +67,14 @@ function createWindow(): BrowserWindow {
         }
       });
 
-      ipcMain.on('count-bookings', async (event: any, ...args: any[]) => {
+      ipcMain.on('count-bookings', async (event: any, _isPassive: boolean) => {
         try {
-          event.returnValue = await bookingRepo.count();
+          event.returnValue = await bookingRepo
+            .createQueryBuilder("booking")
+            .where({
+              isPassive: _isPassive
+            })
+            .getCount()
         } catch (err) {
           throw err;
         }
@@ -77,6 +88,8 @@ function createWindow(): BrowserWindow {
             .createQueryBuilder("client")
             .skip(_skip)
             .take(_take)
+            .orderBy("client.name", "ASC")
+            .addOrderBy("client.surname", "ASC")
             .getMany();
         } catch (err) {
           throw err;
@@ -134,6 +147,7 @@ function createWindow(): BrowserWindow {
             .createQueryBuilder("service")
             .skip(_skip)
             .take(_take)
+            .orderBy("service.name", "ASC")
             .getMany();
         } catch (err) {
           throw err;
@@ -176,6 +190,7 @@ function createWindow(): BrowserWindow {
             .createQueryBuilder("room")
             .skip(_skip)
             .take(_take)
+            .orderBy("room.roomNumber", "ASC")
             .getMany();
         } catch (err) {
           throw err;
@@ -245,6 +260,28 @@ function createWindow(): BrowserWindow {
           const company = await companyRepo.create(_company);
           await companyRepo.save(company);
           event.returnValue = true;
+        } catch (err) {
+          throw err;
+        }
+      });
+
+      const chargeRepo = AppDataSource.getRepository(Charge);
+
+      ipcMain.on('add-charge', async (event: any, _charge: Charge) => {
+        try {
+          const charge = await chargeRepo.create(_charge);
+          await chargeRepo.save(charge);
+          event.returnValue = await chargeRepo.find();
+        } catch (err) {
+          throw err;
+        }
+      });
+
+      ipcMain.on('delete-charge', async (event: any, _charge: Charge) => {
+        try {
+          const charge = await chargeRepo.create(_charge);
+          await chargeRepo.remove(charge);
+          event.returnValue = await chargeRepo.find();
         } catch (err) {
           throw err;
         }
