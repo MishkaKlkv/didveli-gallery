@@ -3,7 +3,7 @@ import {
   TuiAlertModule,
   TuiButtonModule,
   TuiDataListModule,
-  TuiDialogModule, TuiErrorModule,
+  TuiDialogModule, TuiErrorModule, TuiFormatNumberPipeModule,
   TuiHostedDropdownModule,
   TuiRootModule, TuiScrollbarModule, TuiSvgModule, TuiTextfieldControllerModule
 } from '@taiga-ui/core';
@@ -11,9 +11,9 @@ import {TuiTableModule, TuiTablePaginationModule} from '@taiga-ui/addon-table';
 import {
   TuiComboBoxModule,
   TuiDataListDropdownManagerModule, TuiDataListWrapperModule,
-  TuiFieldErrorPipeModule, TuiFilterByInputPipeModule, TuiInputDateModule,
+  TuiFieldErrorPipeModule, TuiFilterByInputPipeModule, TuiInputCountModule, TuiInputDateModule,
   TuiInputModule, TuiInputPhoneModule,
-  TuiSelectModule, TuiStringifyContentPipeModule, TuiToggleModule
+  TuiSelectModule, TuiStringifyContentPipeModule, TuiTextAreaModule, TuiToggleModule
 } from '@taiga-ui/kit';
 import {TuiActiveZoneModule, TuiLetModule, TuiValidatorModule} from '@taiga-ui/cdk';
 
@@ -43,7 +43,10 @@ const taigaModules = [
   TuiFilterByInputPipeModule,
   TuiStringifyContentPipeModule,
   TuiInputPhoneModule,
-  TuiToggleModule
+  TuiToggleModule,
+  TuiTextAreaModule,
+  TuiInputCountModule,
+  TuiFormatNumberPipeModule
 ];
 
 @NgModule({

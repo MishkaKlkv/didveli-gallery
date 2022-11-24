@@ -14,8 +14,8 @@
         <th tuiTh>Owner</th>
         <th tuiTh>Lessor</th>
         <th tuiTh>Portal</th>
-        <th tuiTh>Bill</th>
-        <th tuiTh *ngIf="mode === 'active'"></th>
+        <th class="bill-col" tuiTh>Bill</th>
+        <th class="menu-col" tuiTh *ngIf="mode === 'active'"></th>
       </tr>
       </thead>
       <tbody tuiTbody>
@@ -44,8 +44,8 @@
             <td *tuiCell="'portal'" tuiTd>
               {{ booking.portal }}
             </td>
-            <td *tuiCell="'bill'" tuiTd>
-              0$
+            <td class="bill-col" *tuiCell="'bill'" tuiTd>
+              {{ getTotal(booking) }} GEL
             </td>
             <ng-container *ngIf="mode === 'active'">
               <td *tuiCell="'actions'" tuiTd>
@@ -65,11 +65,11 @@
                       Edit
                     </button>
 
-                    <button tuiOption (click)="update(booking)">
+                    <button tuiOption (click)="goToClientOrders(booking)">
                       Add service
                     </button>
 
-                    <button tuiOption (click)="update(booking)">
+                    <button tuiOption (click)="showInvoice(booking)">
                       Invoice
                     </button>
 

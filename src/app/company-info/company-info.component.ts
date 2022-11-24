@@ -30,7 +30,7 @@ export class CompanyInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //todo unsubscribe
+    // todo unsubscribe
     this.companyService.getCompany().subscribe(res => {
       Object.assign(this.company, res);
       this.initGroup();
@@ -45,7 +45,7 @@ export class CompanyInfoComponent implements OnInit {
       bank: new FormControl(this.company.bank, Validators.required),
       phone: new FormControl(this.company.phone, Validators.required),
       email: new FormControl(this.company.email, Validators.required),
-      logo: new FormControl(null),
+      logo: new FormControl(this.company.logo),
     });
     this.group.disable();
   }

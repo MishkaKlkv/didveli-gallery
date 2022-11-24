@@ -1,16 +1,32 @@
 <form
   class="b-form"
-  [formGroup]="group"
   [tuiTextfieldCleaner]="true"
+  [formGroup]="group"
 >
-  <tui-input class="tui-space_vertical-3" formControlName="name">Name</tui-input>
+  <tui-input class="tui-space_vertical-3" formControlName="chargeName">Name</tui-input>
   <tui-error
-    formControlName="name"
+    formControlName="chargeName"
     [error]="[] | tuiFieldError | async"
   ></tui-error>
+
   <tui-input class="tui-space_vertical-3" formControlName="price">Price</tui-input>
   <tui-error
     formControlName="price"
+    [error]="[] | tuiFieldError | async"
+  ></tui-error>
+
+  <tui-input-count
+    class="tui-space_vertical-3"
+    formControlName="quantity"
+    [min]="1"
+  >
+    Quantity
+    <input
+      tuiTextfield
+    />
+  </tui-input-count>
+  <tui-error
+    formControlName="quantity"
     [error]="[] | tuiFieldError | async"
   ></tui-error>
 </form>

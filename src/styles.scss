@@ -77,12 +77,13 @@ th {
 }
 
 th:first-child,
-th:last-child {
+td:first-child {
   width: 1%;
+  text-align: center;
 }
 
-th, td {
-  text-align: center;
+.menu-col {
+  width: 1%
 }
 
 .footer {

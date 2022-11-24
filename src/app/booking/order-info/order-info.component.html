@@ -1,0 +1,78 @@
+<app-header [title]="'Services for client'"></app-header>
+<ng-container *tuiLet="booking$ | async as booking">
+  <div class="main" *ngIf="booking">
+    <h3>
+      {{ booking.client.name }} {{ booking.client.surname }}
+    </h3>
+    <h4>
+      {{ booking.room.roomNumber }}
+    </h4>
+    <h4>
+      {{ booking.arrivalDate | date: 'dd.MM.yyyy' }} - {{ booking.departureDate | date: 'dd.MM.yyyy' }}
+    </h4>
+
+    <table tuiTable [columns]="columns">
+      <thead>
+        <tr tuiThGroup>
+          <th tuiTh>№</th>
+          <th tuiTh>Name</th>
+          <th tuiTh>Price</th>
+          <th tuiTh>Quantity</th>
+          <th tuiTh>Subtotal</th>
+          <th class="menu-col" tuiTh *ngIf="mode === 'active'"></th>
+        </tr>
+      </thead>
+
+      <tbody tuiTbody>
+        <tr *ngFor="let charge of booking.charges; let idx = index;" tuiTr>
+          <td *tuiCell="'index'" tuiTd>
+            {{ idx + 1 }}
+          </td>
+          <td *tuiCell="'chargeName'" tuiTd>
+            {{ charge.chargeName }}
+          </td>
+          <td *tuiCell="'price'" tuiTd>
+            {{ charge.price }}
+          </td>
+          <td *tuiCell="'quantity'" tuiTd>
+            {{ charge.quantity }}
+          </td>
+          <td *tuiCell="'subtotal'" tuiTd>
+<!--            TODO!!! Тетри округляет в меньшую сторону-->
+            {{ getSubtotal(charge) | tuiFormatNumber:{decimalLimit: 2} }}
+          </td>
+          <ng-container *ngIf="mode === 'active'">
+            <td *tuiCell="'actions'" tuiTd>
+              <tui-hosted-dropdown #dropdown [content]="content">
+                <button
+                  tuiIconButton
+                  appearance="flat"
+                  icon="tuiIconMoreVer"
+                  type="button"
+                  [pseudoHover]="dropdown.open || null"
+                ></button>
+              </tui-hosted-dropdown>
+
+              <ng-template #content>
+                <tui-data-list tuiDataListDropdownManager>
+                  <button tuiOption (click)="update(charge)">
+                    Edit
+                  </button>
+
+                  <button tuiOption (click)="delete(charge)">
+                    Delete
+                  </button>
+                </tui-data-list>
+              </ng-template>
+            </td>
+          </ng-container>
+        </tr>
+      </tbody>
+    </table>
+    <h3 class="total">total: {{ total | tuiFormatNumber }} GEL</h3>
+  </div>
+
+  <div class="footer" *ngIf="mode === 'active'">
+    <button tuiButton appearance="primary" (click)="add()">Add service</button>
+  </div>
+</ng-container>

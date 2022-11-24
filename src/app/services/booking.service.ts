@@ -30,6 +30,12 @@ export class BookingService {
     );
   }
 
+  getById(id: number): Observable<Booking> {
+    return of(this.ipc.sendSync('get-booking-by-id', id)).pipe(
+      catchError((error: any) => throwError(error.json))
+    );
+  }
+
   save(booking: Booking): Observable<Booking[]> {
     return of(
       this.ipc.sendSync('add-booking', booking)

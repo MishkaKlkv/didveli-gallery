@@ -31,7 +31,6 @@ export class Booking {
   @Column('boolean', {default: false})
   isPassive: boolean = false;
 
-  // @OneToMany(() => Charge, (charge) => charge.booking)
   @OneToMany('Charge', 'booking')
   @JoinColumn()
   charges: Charge[];

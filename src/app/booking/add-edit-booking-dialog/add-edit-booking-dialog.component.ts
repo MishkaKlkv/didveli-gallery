@@ -82,8 +82,6 @@ export class AddEditBookingDialogComponent implements OnInit {
     Object.assign(this.booking, this.group.value);
     this.booking.arrivalDate = this.booking.arrivalDate?.valueOf();
     this.booking.departureDate = this.booking.departureDate?.valueOf();
-    console.log(this.group.get('client').value.toString());
-    console.log(this.booking);
     this.context.completeWith(this.booking);
   }
 

@@ -1,4 +1,4 @@
-import {Column, Entity, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, ManyToOne, PrimaryGeneratedColumn, RelationId} from "typeorm";
 import {Booking} from "./booking.schema";
 
 @Entity()
@@ -15,7 +15,11 @@ export class Charge {
   @Column()
   quantity: number;
 
-  @ManyToOne('Booking', 'charges')
-  booking: Booking
+  @ManyToOne('Booking', 'charges', { onDelete: 'CASCADE' })
+  booking: Booking;
+
+  @Column()
+  @RelationId((charge: Charge) => charge.booking)
+  bookingId: number
 
 }

@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Inject, Injector} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {
   BehaviorSubject,
   combineLatest,
@@ -58,6 +58,7 @@ export class BookingComponent {
   );
 
   constructor(private route: ActivatedRoute,
+              private router: Router,
               private bookingService: BookingService,
               private readonly sharedService: SharedService,
               @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
@@ -115,6 +116,20 @@ export class BookingComponent {
         switchMap((res: Booking) => res ? this.bookingService.save(res) : EMPTY)
       )
       .subscribe(() => this.refreshBookings$.next(true));
+  }
+
+  goToClientOrders(booking: Booking) {
+    this.router.navigate(['/booking/orders/', this.mode, booking.id]);
+  }
+
+  showInvoice(booking: Booking) {
+
+  }
+
+  getTotal(booking: Booking) {
+    return booking.charges.reduce(
+      (accumulator, {price, quantity}) => accumulator + (price * quantity), 0
+    );
   }
 
   trackByFn(index) {

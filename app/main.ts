@@ -47,6 +47,22 @@ function createWindow(): BrowserWindow {
         }
       });
 
+      ipcMain.on('get-booking-by-id', async (event: any, _id: number) => {
+        try {
+          event.returnValue = await bookingRepo
+            .createQueryBuilder("booking")
+            .leftJoinAndSelect("booking.client", "client")
+            .leftJoinAndSelect("booking.room", "room")
+            .leftJoinAndSelect("booking.charges", "charge")
+            .where({
+              id: _id
+            })
+            .getOne();
+        } catch (err) {
+          throw err;
+        }
+      });
+
       ipcMain.on('add-booking', async (event: any, _booking: Booking) => {
         try {
           const booking = await bookingRepo.create(_booking);
