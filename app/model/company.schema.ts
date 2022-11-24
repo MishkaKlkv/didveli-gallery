@@ -27,7 +27,7 @@ export class Company {
   @Column({
     nullable: true,
     transformer: {
-      to: (value: string) => Buffer.from(value),
+      to: (value: string) => value ? Buffer.from(value) : '',
       from: (value: Buffer) => value?.toString(),
     }
   })

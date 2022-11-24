@@ -1,6 +1,6 @@
 <aside class="sidebar" *tuiLet="company$ | async as company">
-  <div>
-    <img [src]="getLogoLink(company)" [alt]="company.name"/>
+  <div *ngIf="company">
+    <img [src]="getLogoLink(company)" [alt]="company?.name"/>
   </div>
   <nav class="nav">
     <ul>
