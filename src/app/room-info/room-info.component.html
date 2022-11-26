@@ -7,6 +7,7 @@
         <th tuiTh>№</th>
         <th tuiTh>Room number</th>
         <th tuiTh>Owner</th>
+        <th tuiTh>Owner's phone</th>
         <th tuiTh class="menu-col"></th>
       </tr>
     </thead>
@@ -20,6 +21,9 @@
         </td>
         <td *tuiCell="'owner'" tuiTd>
           {{ room.owner }}
+        </td>
+        <td *tuiCell="'phone'" tuiTd>
+          {{ room.phone | tuiFormatPhone: '+995':'###-##-##-##' }}
         </td>
         <td *tuiCell="'actions'" tuiTd>
           <tui-hosted-dropdown #dropdown [content]="content">

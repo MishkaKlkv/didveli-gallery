@@ -17,8 +17,8 @@ import {PolymorpheusComponent} from '@tinkoff/ng-polymorpheus';
 import {SharedService} from '../shared/shared.service';
 import {TuiDialogService} from '@taiga-ui/core';
 import {AddEditBookingDialogComponent} from './add-edit-booking-dialog/add-edit-booking-dialog.component';
-import {Booking} from '../../../app/model/booking.schema';
 import {ChargeService} from '../services/charge.service';
+import {Booking} from '../entity/Booking';
 
 @Component({
   selector: 'app-booking',
@@ -125,11 +125,7 @@ export class BookingComponent {
   }
 
   showInvoice(booking: Booking) {
-
-  }
-
-  getTotal(booking: Booking): number {
-    return this.chargeService.calcTotal(booking.charges);
+    this.router.navigate(['/booking/invoice/', this.mode, booking.id]);
   }
 
   trackByFn(index) {

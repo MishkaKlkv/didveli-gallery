@@ -6,9 +6,9 @@ import {DateHelper} from '../../shared/util/DateHelper';
 import {ClientInfoService} from '../../services/client-info.service';
 import {debounceTime, filter, Observable, startWith, Subject, switchMap} from 'rxjs';
 import {RoomInfoService} from '../../services/room-info.service';
-import {Client} from '../../../../app/model/client.schema';
-import {Booking} from '../../../../app/model/booking.schema';
-import {Room} from '../../../../app/model/room.schema';
+import {Booking} from '../../entity/Booking';
+import {Client} from '../../entity/Client';
+import {Room} from '../../entity/Room';
 
 @Component({
   selector: 'app-add-edit-booking-dialog',

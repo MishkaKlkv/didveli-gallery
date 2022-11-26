@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {IpcRenderer} from 'electron';
 import {Observable, of, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
-import {Charge} from '../../../app/model/charge.schema';
+import {Charge} from '../entity/Charge';
 
 @Injectable({
   providedIn: 'root'
@@ -36,15 +36,4 @@ export class ChargeService {
     ).pipe(catchError((error: any) => throwError(error.json)));
   }
 
-  calcTotal(charges: Charge[]) {
-    return charges.reduce(
-      (accumulator, charge) => {
-        if (charge.chargeName === 'Deposit') {
-          return accumulator - (charge.price * charge.quantity);
-        } else {
-          return accumulator + (charge.price * charge.quantity);
-        }
-      }, 0
-    );
-  }
 }

@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core'
 import {POLYMORPHEUS_CONTEXT} from '@tinkoff/ng-polymorpheus';
 import {TuiDialogContext} from '@taiga-ui/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Service} from '../../../../app/model/service.schema';
+import {Service} from '../../entity/Service';
 
 @Component({
   selector: 'app-add-edit-service-info-dialog',

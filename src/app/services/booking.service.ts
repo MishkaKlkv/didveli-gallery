@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import {IpcRenderer} from 'electron';
-import {Observable, of, throwError} from 'rxjs';
+import {map, Observable, of, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
-import {Booking} from '../../../app/model/booking.schema';
+import {Booking} from '../entity/Booking';
+import {Booking as BookingSchema} from '../../../app/model/booking.schema';
+import {Client} from "../entity/Client";
 
 @Injectable({
   providedIn: 'root'
@@ -26,12 +28,24 @@ export class BookingService {
 
   getAll(skip: number, take: number, mode: string = 'active'): Observable<Booking[]> {
     return of(this.ipc.sendSync('get-bookings', skip, take, this.isPassiveMode(mode))).pipe(
+      map((res: BookingSchema[]) =>
+        res.map(entity => {
+          const booking = Object.assign(new Booking(), entity);
+          booking.client = Object.assign(new Client(), entity.client);
+          return booking;
+        })
+      ),
       catchError((error: any) => throwError(error.json))
     );
   }
 
   getById(id: number): Observable<Booking> {
     return of(this.ipc.sendSync('get-booking-by-id', id)).pipe(
+      map((res: BookingSchema) => {
+        const booking = Object.assign(new Booking(), res);
+        booking.client = Object.assign(new Client(), res.client);
+        return booking;
+      }),
       catchError((error: any) => throwError(error.json))
     );
   }

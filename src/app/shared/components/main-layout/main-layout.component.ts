@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
 import {CompanyInfoService} from '../../../services/company-info.service';
-import {Company} from '../../../../../app/model/company.schema';
+import {Company} from '../../../entity/Company';
 
 @Component({
   selector: 'app-main-layout',

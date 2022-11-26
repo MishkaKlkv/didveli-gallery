@@ -2,9 +2,9 @@ import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core'
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {POLYMORPHEUS_CONTEXT} from '@tinkoff/ng-polymorpheus';
 import {TuiDialogContext} from '@taiga-ui/core';
-import {Charge} from '../../../../../app/model/charge.schema';
 import {ServiceInfoService} from '../../../services/service-info.service';
-import {Service} from '../../../../../app/model/service.schema';
+import {Charge} from '../../../entity/Charge';
+import {Service} from '../../../entity/Service';
 
 @Component({
   selector: 'app-add-edit-order-dialog',

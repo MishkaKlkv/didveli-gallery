@@ -3,7 +3,7 @@ import {
   TuiAlertModule,
   TuiButtonModule,
   TuiDataListModule,
-  TuiDialogModule, TuiErrorModule, TuiFormatNumberPipeModule,
+  TuiDialogModule, TuiErrorModule, TuiFormatNumberPipeModule, TuiFormatPhonePipeModule,
   TuiHostedDropdownModule,
   TuiRootModule, TuiScrollbarModule, TuiSvgModule, TuiTextfieldControllerModule
 } from '@taiga-ui/core';
@@ -48,7 +48,8 @@ const taigaModules = [
   TuiTextAreaModule,
   TuiInputCountModule,
   TuiFormatNumberPipeModule,
-  TuiInputNumberModule
+  TuiInputNumberModule,
+  TuiFormatPhonePipeModule
 ];
 
 @NgModule({

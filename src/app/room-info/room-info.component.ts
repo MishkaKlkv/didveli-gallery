@@ -15,7 +15,7 @@ import {PolymorpheusComponent} from '@tinkoff/ng-polymorpheus';
 import {RoomInfoService} from '../services/room-info.service';
 import {AddEditRoomInfoDialogComponent} from './add-edit-room-info-dialog/add-edit-room-info-dialog.component';
 import {tuiIsPresent} from '@taiga-ui/cdk';
-import {Room} from '../../../app/model/room.schema';
+import {Room} from '../entity/Room';
 
 @Component({
   selector: 'app-room-info',
@@ -26,7 +26,7 @@ import {Room} from '../../../app/model/room.schema';
 export class RoomInfoComponent {
 
   readonly refreshRooms$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
-  readonly columns = [`index`, `roomNumber`, `owner`, `actions`];
+  readonly columns = [`index`, `roomNumber`, `owner`, `phone`, `actions`];
   readonly size$ = new BehaviorSubject(10);
   readonly page$ = new BehaviorSubject(0);
 

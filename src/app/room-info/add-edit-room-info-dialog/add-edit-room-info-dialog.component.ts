@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, Inject, OnInit} from '@angular/core'
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {POLYMORPHEUS_CONTEXT} from '@tinkoff/ng-polymorpheus';
 import {TuiDialogContext} from '@taiga-ui/core';
-import {Room} from '../../../../app/model/room.schema';
+import {Room} from '../../entity/Room';
 
 @Component({
   selector: 'app-add-edit-room-info-dialog',
@@ -27,6 +27,7 @@ export class AddEditRoomInfoDialogComponent implements OnInit {
     this.group = new FormGroup({
       roomNumber: new FormControl(this.room.roomNumber, Validators.required),
       owner: new FormControl(this.room.owner, Validators.required),
+      phone: new FormControl(this.room.phone),
     });
   }
 

@@ -1,0 +1,28 @@
+main {
+
+}
+
+hr {
+  border-top: 1px solid #333333;
+  margin: 2.5em 0;
+}
+
+.page {
+  background: white;
+  display: block;
+  margin: 0 auto 0.5cm;
+  padding: 1.5cm 1.5cm 1.5cm 1.5cm;
+  box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+}
+
+.page[size="A4"] {
+  width: 21cm;
+  height: 29.7cm;
+}
+
+@media print {
+  body, page {
+    margin: 0;
+    box-shadow: 0;
+  }
+}

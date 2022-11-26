@@ -15,7 +15,7 @@ import {PolymorpheusComponent} from '@tinkoff/ng-polymorpheus';
 import {ClientInfoService} from '../services/client-info.service';
 import {AddEditClientInfoDialogComponent} from './add-edit-client-info-dialog/add-edit-client-info-dialog.component';
 import {tuiIsPresent} from '@taiga-ui/cdk';
-import {Client} from '../../../app/model/client.schema';
+import {Client} from '../entity/Client';
 
 @Component({
   selector: 'app-client-info',

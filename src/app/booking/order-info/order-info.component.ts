@@ -1,14 +1,14 @@
 import {ChangeDetectionStrategy, Component, Inject, Injector, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {BookingService} from '../../services/booking.service';
-import {Booking} from '../../../../app/model/booking.schema';
 import {BehaviorSubject, EMPTY, Observable, switchMap, tap} from 'rxjs';
-import {Charge} from '../../../../app/model/charge.schema';
 import {PolymorpheusComponent} from '@tinkoff/ng-polymorpheus';
 import {SharedService} from '../../shared/shared.service';
 import {TuiDialogService} from '@taiga-ui/core';
 import {ChargeService} from '../../services/charge.service';
 import {AddEditOrderDialogComponent} from './add-edit-order-dialog/add-edit-order-dialog.component';
+import {Booking} from '../../entity/Booking';
+import {Charge} from '../../entity/Charge';
 
 @Component({
   selector: 'app-order-info',
@@ -20,7 +20,6 @@ export class OrderInfoComponent implements OnInit {
 
   mode: string;
   id: number;
-  total = 0;
   booking$: Observable<Booking>;
   readonly refreshCharges$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   readonly columns = [`index`, `chargeName`, `price`, `quantity`, `subtotal`, `actions`];
@@ -39,14 +38,10 @@ export class OrderInfoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.booking$ = this.refreshCharges$.pipe(
-      switchMap(_ =>
-        this.bookingService.getById(this.id)
-          .pipe(
-            tap((res: Booking) => {
-              this.total = this.chargeService.calcTotal(res.charges);
-            })
-          )));
+    this.booking$ = this.refreshCharges$
+      .pipe(
+        switchMap(_ => this.bookingService.getById(this.id))
+      );
   }
 
   add(): void {

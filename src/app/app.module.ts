@@ -28,6 +28,7 @@ import { CompanyInfoComponent } from './company-info/company-info.component';
 import { AddEditBookingDialogComponent } from './booking/add-edit-booking-dialog/add-edit-booking-dialog.component';
 import { OrderInfoComponent } from './booking/order-info/order-info.component';
 import { AddEditOrderDialogComponent } from './booking/order-info/add-edit-order-dialog/add-edit-order-dialog.component';
+import { InvoiceComponent } from './booking/invoice/invoice.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { AddEditOrderDialogComponent } from './booking/order-info/add-edit-order
     AddEditBookingDialogComponent,
     OrderInfoComponent,
     AddEditOrderDialogComponent,
+    InvoiceComponent,
   ],
   imports: [
     BrowserModule,

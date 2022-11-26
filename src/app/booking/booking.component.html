@@ -27,7 +27,7 @@
               {{ booking.room.roomNumber }}
             </td>
             <td *tuiCell="'guest'" tuiTd>
-              {{ booking.client.name }} {{ booking.client.surname }}
+              {{ booking.client.fullName }}
             </td>
             <td *tuiCell="'arrivalDate'" tuiTd>
               {{ booking.arrivalDate | date: 'dd.MM.yyyy' }}
@@ -45,7 +45,7 @@
               {{ booking.portal }}
             </td>
             <td class="bill-col" *tuiCell="'bill'" (click)="goToClientOrders(booking)" tuiTd>
-              {{ getTotal(booking) | tuiFormatNumber:{decimalLimit: 2} }} ₾
+              {{ booking.total | tuiFormatNumber:{decimalLimit: 2} }} ₾
             </td>
             <ng-container *ngIf="mode === 'active'">
               <td *tuiCell="'actions'" tuiTd>

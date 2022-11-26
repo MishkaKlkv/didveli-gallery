@@ -11,7 +11,7 @@ import {citizenship} from '../../../assets/data/citizenship';
 import {DateHelper} from '../../shared/util/DateHelper';
 import {TUI_DEFAULT_MATCHER, tuiControlValue} from '@taiga-ui/cdk';
 import {map, Observable, of, share} from 'rxjs';
-import {Client} from '../../../../app/model/client.schema';
+import {Client} from '../../entity/Client';
 
 @Component({
   selector: 'app-add-edit-client-info-dialog',

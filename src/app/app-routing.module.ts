@@ -9,6 +9,7 @@ import {ClientInfoComponent} from './client-info/client-info.component';
 import {BookingComponent} from './booking/booking.component';
 import {CompanyInfoComponent} from './company-info/company-info.component';
 import {OrderInfoComponent} from './booking/order-info/order-info.component';
+import {InvoiceComponent} from './booking/invoice/invoice.component';
 
 const routes: Routes = [
   {
@@ -18,7 +19,8 @@ const routes: Routes = [
           [
             {path: 'active', component: BookingComponent},
             {path: 'passive', component: BookingComponent},
-            {path: 'orders/:mode/:id', component: OrderInfoComponent}
+            {path: 'orders/:mode/:id', component: OrderInfoComponent},
+            {path: 'invoice/:mode/:id', component: InvoiceComponent}
           ]},
       {path: 'clients', component: ClientInfoComponent},
       {path: 'services', component: ServiceInfoComponent},

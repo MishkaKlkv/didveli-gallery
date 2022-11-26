@@ -8,11 +8,25 @@
     formControlName="roomNumber"
     [error]="[] | tuiFieldError | async"
   ></tui-error>
+
   <tui-input class="tui-space_vertical-3" formControlName="owner">Owner</tui-input>
   <tui-error
     formControlName="owner"
     [error]="[] | tuiFieldError | async"
   ></tui-error>
+
+  <tui-input-phone
+    class="tui-space_vertical-3"
+    formControlName="phone"
+    [countryCode]="'+995'"
+    [phoneMaskAfterCountryCode]="'###-##-##-##'"
+  >
+    Owner's phone
+    <input
+      tuiTextfield
+      autocomplete="tel"
+    />
+  </tui-input-phone>
 </form>
 
 <button tuiButton appearance="primary" class="tui-space_right-3" (click)="ok()" [disabled]="disabled">Save</button>
