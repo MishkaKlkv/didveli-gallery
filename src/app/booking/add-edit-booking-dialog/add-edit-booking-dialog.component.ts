@@ -90,7 +90,7 @@ export class AddEditBookingDialogComponent implements OnInit {
   }
 
   readonly stringifyClient = (item: Client): string =>
-    `${item.name} ${item.surname}`;
+    `${item.name} ${item?.surname}`;
 
   readonly stringifyRoom = (item: Room): string =>
     `${item.roomNumber} | ${item.owner}`;

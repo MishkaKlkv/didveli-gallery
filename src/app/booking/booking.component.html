@@ -44,8 +44,8 @@
             <td *tuiCell="'portal'" tuiTd>
               {{ booking.portal }}
             </td>
-            <td class="bill-col" *tuiCell="'bill'" tuiTd>
-              {{ getTotal(booking) }} GEL
+            <td class="bill-col" *tuiCell="'bill'" (click)="goToClientOrders(booking)" tuiTd>
+              {{ getTotal(booking) | tuiFormatNumber:{decimalLimit: 2} }} ₾
             </td>
             <ng-container *ngIf="mode === 'active'">
               <td *tuiCell="'actions'" tuiTd>

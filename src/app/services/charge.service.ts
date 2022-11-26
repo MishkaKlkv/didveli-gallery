@@ -35,4 +35,16 @@ export class ChargeService {
       this.ipc.sendSync('delete-charge', charge)
     ).pipe(catchError((error: any) => throwError(error.json)));
   }
+
+  calcTotal(charges: Charge[]) {
+    return charges.reduce(
+      (accumulator, charge) => {
+        if (charge.chargeName === 'Deposit') {
+          return accumulator - (charge.price * charge.quantity);
+        } else {
+          return accumulator + (charge.price * charge.quantity);
+        }
+      }, 0
+    );
+  }
 }

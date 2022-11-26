@@ -44,9 +44,7 @@ export class OrderInfoComponent implements OnInit {
         this.bookingService.getById(this.id)
           .pipe(
             tap((res: Booking) => {
-              this.total = res.charges.reduce(
-                (accumulator, {price, quantity}) => accumulator + (price * quantity), 0
-              );
+              this.total = this.chargeService.calcTotal(res.charges);
             })
           )));
   }

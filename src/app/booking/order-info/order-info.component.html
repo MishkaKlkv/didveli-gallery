@@ -32,14 +32,14 @@
             {{ charge.chargeName }}
           </td>
           <td *tuiCell="'price'" tuiTd>
-            {{ charge.price }}
+            {{ charge.price | tuiFormatNumber:{decimalLimit: 2} }} ₾
           </td>
           <td *tuiCell="'quantity'" tuiTd>
             {{ charge.quantity }}
           </td>
           <td *tuiCell="'subtotal'" tuiTd>
 <!--            TODO!!! Тетри округляет в меньшую сторону-->
-            {{ getSubtotal(charge) | tuiFormatNumber:{decimalLimit: 2} }}
+            {{ getSubtotal(charge) | tuiFormatNumber:{decimalLimit: 2} }} ₾
           </td>
           <ng-container *ngIf="mode === 'active'">
             <td *tuiCell="'actions'" tuiTd>
@@ -69,7 +69,7 @@
         </tr>
       </tbody>
     </table>
-    <h3 class="total">total: {{ total | tuiFormatNumber }} GEL</h3>
+    <h3 class="total">total: {{ total | tuiFormatNumber:{decimalLimit: 2} }} ₾</h3>
   </div>
 
   <div class="footer" *ngIf="mode === 'active'">

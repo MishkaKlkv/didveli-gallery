@@ -18,6 +18,7 @@ import {SharedService} from '../shared/shared.service';
 import {TuiDialogService} from '@taiga-ui/core';
 import {AddEditBookingDialogComponent} from './add-edit-booking-dialog/add-edit-booking-dialog.component';
 import {Booking} from '../../../app/model/booking.schema';
+import {ChargeService} from '../services/charge.service';
 
 @Component({
   selector: 'app-booking',
@@ -60,6 +61,7 @@ export class BookingComponent {
   constructor(private route: ActivatedRoute,
               private router: Router,
               private bookingService: BookingService,
+              private chargeService: ChargeService,
               private readonly sharedService: SharedService,
               @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
               @Inject(Injector) private readonly injector: Injector) {
@@ -126,10 +128,8 @@ export class BookingComponent {
 
   }
 
-  getTotal(booking: Booking) {
-    return booking.charges.reduce(
-      (accumulator, {price, quantity}) => accumulator + (price * quantity), 0
-    );
+  getTotal(booking: Booking): number {
+    return this.chargeService.calcTotal(booking.charges);
   }
 
   trackByFn(index) {

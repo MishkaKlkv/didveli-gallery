@@ -8,7 +8,14 @@
     formControlName="name"
     [error]="[] | tuiFieldError | async"
   ></tui-error>
-  <tui-input class="tui-space_vertical-3" formControlName="price">Price</tui-input>
+
+  <tui-input-number
+    class="tui-space_vertical-3"
+    formControlName="price"
+    [postfix]="'₾'"
+  >
+    Price
+  </tui-input-number>
   <tui-error
     formControlName="price"
     [error]="[] | tuiFieldError | async"

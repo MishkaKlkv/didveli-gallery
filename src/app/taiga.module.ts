@@ -12,9 +12,10 @@ import {
   TuiComboBoxModule,
   TuiDataListDropdownManagerModule, TuiDataListWrapperModule,
   TuiFieldErrorPipeModule, TuiFilterByInputPipeModule, TuiInputCountModule, TuiInputDateModule,
-  TuiInputModule, TuiInputPhoneModule,
+  TuiInputModule, TuiInputNumberModule, TuiInputPhoneModule,
   TuiSelectModule, TuiStringifyContentPipeModule, TuiTextAreaModule, TuiToggleModule
 } from '@taiga-ui/kit';
+
 import {TuiActiveZoneModule, TuiLetModule, TuiValidatorModule} from '@taiga-ui/cdk';
 
 const taigaModules = [
@@ -46,7 +47,8 @@ const taigaModules = [
   TuiToggleModule,
   TuiTextAreaModule,
   TuiInputCountModule,
-  TuiFormatNumberPipeModule
+  TuiFormatNumberPipeModule,
+  TuiInputNumberModule
 ];
 
 @NgModule({

@@ -3,13 +3,49 @@
   [tuiTextfieldCleaner]="true"
   [formGroup]="group"
 >
-  <tui-input class="tui-space_vertical-3" formControlName="chargeName">Name</tui-input>
+  <tui-select
+    class="tui-space_vertical-3"
+    formControlName="chargeName"
+    *tuiLet="services$ | async as items"
+  >
+    Select service
+    <tui-data-list *tuiDataList>
+      <tui-opt-group label="Custom">
+        <button
+          tuiOption
+          value="Deposit"
+          (click)="addCustomService()"
+        >
+          Deposit
+        </button>
+        <button
+          tuiOption
+          value="Price per day"
+          (click)="addCustomService()"
+        >
+          Price per day
+        </button>
+      </tui-opt-group>
+
+      <tui-opt-group label="Default">
+        <button
+          *ngFor="let item of items"
+          tuiOption
+          [value]="item.name"
+          (click)="addDefaultService(item)"
+        >
+          {{ item.name }}
+        </button>
+      </tui-opt-group>
+    </tui-data-list>
+  </tui-select>
+
   <tui-error
     formControlName="chargeName"
     [error]="[] | tuiFieldError | async"
   ></tui-error>
 
-  <tui-input class="tui-space_vertical-3" formControlName="price">Price</tui-input>
+  <tui-input class="tui-space_vertical-3" formControlName="price">Price ₾</tui-input>
   <tui-error
     formControlName="price"
     [error]="[] | tuiFieldError | async"
