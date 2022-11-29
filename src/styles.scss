@@ -68,18 +68,20 @@ body {
   padding: 30px 40px;
 }
 
-table {
-  width: 100%;
-}
+.data-table {
+  table {
+    width: 100%;
+  }
 
-th {
-  text-transform: uppercase;
-}
+  th {
+    text-transform: uppercase;
+  }
 
-th:first-child,
-td:first-child {
-  width: 1%;
-  text-align: center;
+  th:first-child,
+  td:first-child {
+    width: 1%;
+    text-align: center;
+  }
 }
 
 .menu-col {

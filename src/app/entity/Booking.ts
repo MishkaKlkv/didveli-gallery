@@ -85,6 +85,18 @@ export class Booking {
     this._charges = value;
   }
 
+  get subtotal() {
+    return this.charges.reduce(
+      (accumulator, charge) => {
+        if (charge.chargeName !== 'Deposit') {
+          return accumulator + (charge.price * charge.quantity);
+        } else {
+          return accumulator;
+        }
+      }, 0
+    );
+  }
+
   get total() {
     return this.charges.reduce(
       (accumulator, charge) => {

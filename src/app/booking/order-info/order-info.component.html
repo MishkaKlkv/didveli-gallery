@@ -11,13 +11,14 @@
       {{ booking.arrivalDate | date: 'dd.MM.yyyy' }} - {{ booking.departureDate | date: 'dd.MM.yyyy' }}
     </h4>
 
-    <table tuiTable [columns]="columns">
+    <table class="data-table" tuiTable [columns]="columns">
       <thead>
         <tr tuiThGroup>
           <th tuiTh>№</th>
           <th tuiTh>Name</th>
           <th tuiTh>Price</th>
           <th tuiTh>Quantity</th>
+          <th tuiTh>Date of service</th>
           <th tuiTh>Subtotal</th>
           <th class="menu-col" tuiTh *ngIf="mode === 'active'"></th>
         </tr>
@@ -37,8 +38,10 @@
           <td *tuiCell="'quantity'" tuiTd>
             {{ charge.quantity }}
           </td>
+          <td *tuiCell="'dateOfService'" tuiTd>
+            {{ charge.dateOfService | date:'dd.MM.yyyy' }}
+          </td>
           <td *tuiCell="'subtotal'" tuiTd>
-<!--            TODO!!! Тетри округляет в меньшую сторону-->
             {{ getSubtotal(charge) | tuiFormatNumber:{decimalLimit: 2} }} ₾
           </td>
           <ng-container *ngIf="mode === 'active'">

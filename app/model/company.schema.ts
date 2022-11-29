@@ -6,22 +6,22 @@ export class Company {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('varchar', { length: 100 })
+  @Column('varchar', {length: 100})
   name: string;
 
-  @Column('varchar', { length: 100 })
+  @Column('varchar', {length: 100})
   companyId: string;
 
-  @Column('varchar', { length: 256 })
+  @Column('varchar', {length: 256})
   address: string;
 
-  @Column('varchar', { length: 256 })
+  @Column('varchar', {length: 256})
   bank: string;
 
-  @Column('varchar', { length: 50 })
+  @Column('varchar', {length: 50})
   phone: string;
 
-  @Column('varchar', { length: 50 })
+  @Column('varchar', {length: 50})
   email: string;
 
   @Column({
@@ -33,4 +33,6 @@ export class Company {
   })
   logo: string;
 
+  @Column('varchar', {length: 100, nullable: true})
+  logoName: string;
 }

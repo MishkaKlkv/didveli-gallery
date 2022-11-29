@@ -5,6 +5,7 @@ import {TuiDialogContext} from '@taiga-ui/core';
 import {ServiceInfoService} from '../../../services/service-info.service';
 import {Charge} from '../../../entity/Charge';
 import {Service} from '../../../entity/Service';
+import {DateHelper} from '../../../shared/util/DateHelper';
 
 @Component({
   selector: 'app-add-edit-order-dialog',
@@ -35,11 +36,14 @@ export class AddEditOrderDialogComponent implements OnInit {
       chargeName: new FormControl(this.charge.chargeName, Validators.required),
       price: new FormControl(this.charge.price, Validators.required),
       quantity: new FormControl(this.charge.quantity || 1, Validators.required),
+      dateOfService: new FormControl(
+        DateHelper.tuiDayFromTimestamp(this.charge.dateOfService || new Date().getTime()), Validators.required),
     });
   }
 
   ok() {
     Object.assign(this.charge, this.group.value);
+    this.charge.dateOfService = this.charge.dateOfService?.valueOf();
     this.context.completeWith(this.charge);
   }
 

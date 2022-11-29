@@ -4,4 +4,5 @@ export class Charge {
   price: number;
   quantity: number;
   bookingId: number;
+  dateOfService: number;
 }

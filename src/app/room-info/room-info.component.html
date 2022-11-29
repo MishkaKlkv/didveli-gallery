@@ -11,7 +11,7 @@
         <th tuiTh class="menu-col"></th>
       </tr>
     </thead>
-    <tbody tuiTbody *tuiLet="data as rooms" [data]="rooms">
+    <tbody class="data-table" tuiTbody *tuiLet="data as rooms" [data]="rooms">
       <tr *ngFor="let room of rooms; let idx = index; trackBy: trackByFn" tuiTr>
         <td *tuiCell="'index'" tuiTd>
           {{ idx + 1 }}

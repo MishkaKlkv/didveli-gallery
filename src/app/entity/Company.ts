@@ -7,4 +7,5 @@ export class Company {
   phone: string;
   email: string;
   logo: string;
+  logoName: string;
 }

@@ -1,7 +1,7 @@
 <app-header [title]="'Clients information'"></app-header>
 
 <div class="main">
-  <table *ngIf="data$ | async as data" tuiTable [columns]="columns">
+  <table class="data-table" *ngIf="data$ | async as data" tuiTable [columns]="columns">
     <thead>
       <tr tuiThGroup>
         <th tuiTh>№</th>

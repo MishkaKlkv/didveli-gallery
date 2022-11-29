@@ -53,7 +53,7 @@ function createWindow(): BrowserWindow {
             .createQueryBuilder("booking")
             .leftJoinAndSelect("booking.client", "client")
             .leftJoinAndSelect("booking.room", "room")
-            .leftJoinAndSelect("booking.charges", "charge")
+            .leftJoinAndSelect("booking.charges", "charge").orderBy("charge.dateOfService", "ASC")
             .where({
               id: _id
             })

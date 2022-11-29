@@ -1,8 +1,189 @@
-<div class="main">
-  <main>
-    <section class="page" size="A4">
-      <hr>
-      <h1>INVOICE NUMBER</h1>
-    </section>
-  </main>
-</div>
+<app-header [title]="'Invoice'"></app-header>
+
+<ng-container *ngIf="
+  {
+    booking: booking$ | async,
+    company: company$ | async
+  } as observables">
+
+  <div class="main" *tuiLet="observables.booking as booking">
+    <button (click)="print()">Print</button>
+
+    <main #invoice *ngIf="booking" class="page" size="A4">
+<!--      <body>-->
+<!--      <header>Header</header>-->
+<!--      <article>Content</article>-->
+<!--      <footer>Footer</footer>-->
+<!--      </body>-->
+
+      <ng-container *tuiLet="observables.company as company">
+        <header>
+          <img [src]="getLogoLink(company)" [alt]="company?.name" class="invert"/>
+          <hr>
+        </header>
+
+        <article>
+          <div class="flex-box">
+            <div class="flex-child"><span class="invoice-title">INVOICE NUMBER</span></div>
+            <div class="flex-child"><span class="invoice-title">{{ booking.id }}</span></div>
+          </div>
+
+          <table class="bill-table">
+            <thead>
+            <tr>
+              <th>Billed to</th>
+              <th>{{ company.name }}</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr>
+              <td>
+                <b>Name:</b> {{ booking.client.fullName }}
+                <br/>
+                <b>Passport:</b> {{ booking.client.passport }}
+                <br/>
+                <b>Citizenship:</b> {{ booking.client.citizenship }}
+                <br/>
+                <b>Arrival Date:</b> {{ booking.arrivalDate | date: 'dd.MM.yyyy' }}
+                <br/>
+                <b>Departure Date:</b> {{ booking.departureDate | date: 'dd.MM.yyyy' }}
+              </td>
+              <td>
+                <b>Address:</b> {{ company.address }}
+                <br/>
+                <b>ID:</b> {{ company.companyId }}
+              </td>
+            </tr>
+            </tbody>
+          </table>
+
+
+
+
+<!--        <img [src]="getLogoLink(company)" [alt]="company?.name" class="invert"/>-->
+<!--        <hr>-->
+<!--        <div class="flex-box">-->
+<!--          <div class="flex-child"><span class="invoice-title">INVOICE NUMBER</span></div>-->
+<!--          <div class="flex-child"><span class="invoice-title">{{ booking.id }}</span></div>-->
+<!--        </div>-->
+
+<!--        <table class="bill-table">-->
+<!--          <thead>-->
+<!--          <tr>-->
+<!--            <th>Billed to</th>-->
+<!--            <th>{{ company.name }}</th>-->
+<!--          </tr>-->
+<!--          </thead>-->
+
+<!--          <tbody>-->
+<!--          <tr>-->
+<!--            <td>-->
+<!--              <b>Name:</b> {{ booking.client.fullName }}-->
+<!--              <br/>-->
+<!--              <b>Passport:</b> {{ booking.client.passport }}-->
+<!--              <br/>-->
+<!--              <b>Citizenship:</b> {{ booking.client.citizenship }}-->
+<!--              <br/>-->
+<!--              <b>Arrival Date:</b> {{ booking.arrivalDate | date: 'dd.MM.yyyy' }}-->
+<!--              <br/>-->
+<!--              <b>Departure Date:</b> {{ booking.departureDate | date: 'dd.MM.yyyy' }}-->
+<!--            </td>-->
+<!--            <td>-->
+<!--              <b>Address:</b> {{ company.address }}-->
+<!--              <br/>-->
+<!--              <b>ID:</b> {{ company.companyId }}-->
+<!--            </td>-->
+<!--          </tr>-->
+<!--          </tbody>-->
+<!--        </table>-->
+
+<!--      <section>-->
+        <table class="service-table">
+          <thead>
+          <tr>
+            <th>Date</th>
+            <th>Description</th>
+            <th>Quantity</th>
+            <th>Unit Price GEL</th>
+            <th>Total GEL</th>
+          </tr>
+          </thead>
+
+          <tbody>
+          <tr *ngFor="let charge of booking.charges">
+            <td>
+              {{ charge.dateOfService | date: 'dd.MM.yyyy' }}
+            </td>
+            <td>
+              {{ charge.chargeName }}
+            </td>
+            <td>
+              {{ charge.quantity }}
+            </td>
+            <td>
+              {{ charge.price | tuiFormatNumber:{decimalLimit: 2} }}
+            </td>
+            <td>
+              {{ getSubtotal(charge) | tuiFormatNumber:{decimalLimit: 2} }}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <b>Subtotal:</b>
+            </td>
+            <td colspan="4">{{ booking.subtotal | tuiFormatNumber:{decimalLimit: 2} }} GEL</td>
+          </tr>
+          <tr>
+            <td>
+              <b>Grand Total:</b>
+            </td>
+            <td colspan="4">{{ booking.total | tuiFormatNumber:{decimalLimit: 2} }} GEL</td>
+          </tr>
+          </tbody>
+        </table>
+        </article>
+
+        <footer>
+          <hr>
+          <div class="flex-box">
+            <div class="flex-child">
+              <img [src]="getLogoLink(company)" [alt]="company?.name" class="small invert"/>
+            </div>
+            <div class="flex-child">
+              <p>{{ company.address }}</p>
+              <p>{{ company.phone }}</p>
+              <p>{{ company.email }}</p>
+<!--              <table>-->
+<!--                <thead>-->
+<!--                <tr>-->
+<!--                  <th></th>-->
+<!--                  <th></th>-->
+<!--                </tr>-->
+<!--                </thead>-->
+<!--                <tbody>-->
+<!--                <tr>-->
+<!--                  <td>Address</td>-->
+<!--                  <td>COntact</td>-->
+<!--                </tr>-->
+<!--                </tbody>-->
+<!--              </table>-->
+            </div>
+<!--            <div class="flex-child">-->
+<!--              <p>{{ company.phone }}</p>-->
+<!--              <p>{{ company.email }}</p>-->
+<!--            </div>-->
+          </div>
+        </footer>
+      </ng-container>
+
+      <!--      </section>-->
+
+<!--      <section>-->
+<!--        <hr>-->
+<!--      </section>-->
+
+    </main>
+  </div>
+
+</ng-container>

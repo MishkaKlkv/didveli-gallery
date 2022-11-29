@@ -11,7 +11,7 @@ import {TuiTableModule, TuiTablePaginationModule} from '@taiga-ui/addon-table';
 import {
   TuiComboBoxModule,
   TuiDataListDropdownManagerModule, TuiDataListWrapperModule,
-  TuiFieldErrorPipeModule, TuiFilterByInputPipeModule, TuiInputCountModule, TuiInputDateModule,
+  TuiFieldErrorPipeModule, TuiFilterByInputPipeModule, TuiInputCountModule, TuiInputDateModule, TuiInputFilesModule,
   TuiInputModule, TuiInputNumberModule, TuiInputPhoneModule,
   TuiSelectModule, TuiStringifyContentPipeModule, TuiTextAreaModule, TuiToggleModule
 } from '@taiga-ui/kit';
@@ -49,7 +49,9 @@ const taigaModules = [
   TuiInputCountModule,
   TuiFormatNumberPipeModule,
   TuiInputNumberModule,
-  TuiFormatPhonePipeModule
+  TuiFormatPhonePipeModule,
+  TuiInputFilesModule,
+  // TuiPdfViewerModule
 ];
 
 @NgModule({

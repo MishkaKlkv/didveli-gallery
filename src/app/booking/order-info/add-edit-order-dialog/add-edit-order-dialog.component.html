@@ -65,6 +65,15 @@
     formControlName="quantity"
     [error]="[] | tuiFieldError | async"
   ></tui-error>
+
+  <tui-input-date class="tui-space_vertical-3" formControlName="dateOfService">
+    Date of service
+    <input tuiTextfield />
+  </tui-input-date>
+  <tui-error
+    formControlName="dateOfService"
+    [error]="[] | tuiFieldError | async"
+  ></tui-error>
 </form>
 
 <button tuiButton appearance="primary" class="tui-space_right-3" (click)="ok()" [disabled]="disabled">Save</button>

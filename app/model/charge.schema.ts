@@ -15,6 +15,9 @@ export class Charge {
   @Column()
   quantity: number;
 
+  @Column()
+  dateOfService: number;
+
   @ManyToOne('Booking', 'charges', { onDelete: 'CASCADE' })
   booking: Booking;
 
