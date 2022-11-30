@@ -69,3 +69,9 @@ tui-svg {
     }
   }
 }
+
+@media print {
+  #navbar {
+    display: none;
+  }
+}

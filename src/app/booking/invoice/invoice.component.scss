@@ -1,62 +1,81 @@
-//body{ min-height: 100vh; margin:0; }
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #invoice, #invoice * {
+    visibility: visible;
+  }
+  #invoice {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  footer {
 
-header{ min-height:50px; }
-footer{ min-height:50px; }
-
-/* The article fills all the space between header & footer */
-//body{ display:flex; flex-direction:column; }
-article{ flex:1; }
-
-
-
-
-hr {
-  border-top: 1px solid #333333;
-  margin: 2.5em 0;
-}
-
-img {
-  height: auto;
-  vertical-align: middle;
-  display: block;
-  max-width: 100px;
-
-  &.small {
-    max-width: 50px;
   }
 }
 
-.invert { filter: invert(100%); }
+.page {
+  background: white;
+  //display: block;
+  min-height: 100vh;
+  margin: 0 auto 0.5cm;
+  //padding: 1.5cm 1.5cm 1.5cm 1.5cm;
+  //box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+}
+
+.page[size="A4"] {
+  width: 21cm;
+  //height: 29.7cm;
+}
+
+.flex-box {
+  display: flex;
+}
+
+.flex-child {
+  flex: 1;
+  text-align: right;
+}
+
+.flex-child:first-child {
+  text-align: left;
+}
+
+header {
+  min-height: 50px;
+}
+
+footer {
+  min-height: 50px;
+}
+
+article {
+  flex: 1;
+}
 
 table {
   margin-top: 4em;
+  table-layout: fixed;
 }
 
 .bill-table {
   width: 90%;
-  table {
-    table-layout: fixed;
-  }
 
   table, th, td {
-    //border: 1px solid black;
     text-align: left;
     vertical-align: top;
-    margin-top: 3em;
   }
 }
 
 .service-table {
   width: 100%;
-  table {
-    table-layout: fixed;
-  }
 
   table, th, td {
-    //border: 1px solid black;
     text-align: center;
     vertical-align: bottom;
-    margin-top: 3em;
     border-bottom: 2px solid #333333;
   }
 
@@ -75,44 +94,28 @@ table {
   }
 }
 
-.page {
-  background: white;
-  //display: block;
-  min-height: 100vh;
-  margin: 0 auto 0.5cm;
-  padding: 1.5cm 1.5cm 1.5cm 1.5cm;
-  box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
-  display:flex;
-  flex-direction:column;
-}
-
-.page[size="A4"] {
-  width: 21cm;
-  height: 29.7cm;
-}
-
 .invoice-title {
   font-size: 1.5em;
   margin: 0.67em 0;
   font-weight: bold;
 }
 
-.flex-box {
-  display: flex;
+hr {
+  border-top: 1px solid #333333;
+  margin: 2.5em 0;
 }
 
-.flex-child {
-  flex: 1;
-  text-align: right;
-}
+img {
+  height: auto;
+  vertical-align: middle;
+  display: block;
+  max-width: 100px;
 
-.flex-child:first-child {
-  text-align: left;
-}
-
-@media print {
-  body, page {
-    margin: 0;
-    box-shadow: 0;
+  &.small {
+    max-width: 50px;
   }
+}
+
+.invert {
+  filter: invert(100%);
 }
