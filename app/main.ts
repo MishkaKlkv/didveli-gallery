@@ -63,6 +63,38 @@ function createWindow(): BrowserWindow {
         }
       });
 
+      ipcMain.on('get-booking-by-client-id', async (event: any, _clientId: number) => {
+        try {
+          event.returnValue = await bookingRepo
+            .createQueryBuilder("booking")
+            .leftJoinAndSelect("booking.client", "client")
+            .leftJoinAndSelect("booking.room", "room")
+            .leftJoinAndSelect("booking.charges", "charge").orderBy("charge.dateOfService", "ASC")
+            .where({
+              clientId: _clientId
+            })
+            .getOne();
+        } catch (err) {
+          throw err;
+        }
+      });
+
+      ipcMain.on('get-booking-by-room-id', async (event: any, _roomId: number) => {
+        try {
+          event.returnValue = await bookingRepo
+            .createQueryBuilder("booking")
+            .leftJoinAndSelect("booking.client", "client")
+            .leftJoinAndSelect("booking.room", "room")
+            .leftJoinAndSelect("booking.charges", "charge").orderBy("charge.dateOfService", "ASC")
+            .where({
+              roomId: _roomId
+            })
+            .getOne();
+        } catch (err) {
+          throw err;
+        }
+      });
+
       ipcMain.on('add-booking', async (event: any, _booking: Booking) => {
         try {
           const booking = await bookingRepo.create(_booking);

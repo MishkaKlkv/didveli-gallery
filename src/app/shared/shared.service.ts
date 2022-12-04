@@ -9,13 +9,23 @@ import {TuiDialogService} from '@taiga-ui/core';
 export class SharedService {
 
   constructor(@Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
-              @Inject(Injector) private readonly injector: Injector) { }
+              @Inject(Injector) private readonly injector: Injector) {
+  }
 
   initYesNoDialog(data: string) {
     return this.dialogService.open<boolean>(
-      new PolymorpheusComponent(YesNoConfirmComponent, this.injector),
-      {
+      new PolymorpheusComponent(YesNoConfirmComponent, this.injector), {
         label: 'Confirm operation',
+        data,
+        size: `s`,
+        dismissible: true
+      },
+    );
+  }
+
+  initInfoDialog(data: string) {
+    return this.dialogService.open(data, {
+        label: 'Info',
         data,
         size: `s`,
         dismissible: true

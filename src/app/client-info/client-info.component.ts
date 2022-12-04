@@ -16,6 +16,8 @@ import {ClientInfoService} from '../services/client-info.service';
 import {AddEditClientInfoDialogComponent} from './add-edit-client-info-dialog/add-edit-client-info-dialog.component';
 import {tuiIsPresent} from '@taiga-ui/cdk';
 import {Client} from '../entity/Client';
+import {Booking} from '../entity/Booking';
+import {BookingService} from '../services/booking.service';
 
 @Component({
   selector: 'app-client-info',
@@ -54,6 +56,7 @@ export class ClientInfoComponent {
   );
 
   constructor(private readonly clientInfoService: ClientInfoService,
+              private bookingService: BookingService,
               private readonly sharedService: SharedService,
               @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
               @Inject(Injector) private readonly injector: Injector) {
@@ -73,12 +76,16 @@ export class ClientInfoComponent {
   }
 
   delete(client: Client): void {
-    this.sharedService.initYesNoDialog(`delete ${client.name} ${client.surname} client`)
-      .pipe(
-        switchMap((res: boolean) =>
-          res ? this.clientInfoService.delete(client) : EMPTY
-        ),
-      ).subscribe((res: Client[]) => this.refreshClients$.next(true));
+    this.bookingService.getByClientId(client.id).pipe(
+      switchMap(
+        (booking: Booking) => booking
+          ? this.sharedService.initInfoDialog(`Client ${client.name} ${client.surname} is used in booking. Delete booking first`)
+          : this.sharedService.initYesNoDialog(`delete ${client.name} ${client.surname} client`)
+      ),
+      switchMap(
+        (res: boolean) => res ? this.clientInfoService.delete(client) : EMPTY
+      )
+    ).subscribe(() => this.refreshClients$.next(true));
   }
 
   openAddEditClientDialog(label: string, client: Client = new Client()) {

@@ -16,6 +16,8 @@ import {RoomInfoService} from '../services/room-info.service';
 import {AddEditRoomInfoDialogComponent} from './add-edit-room-info-dialog/add-edit-room-info-dialog.component';
 import {tuiIsPresent} from '@taiga-ui/cdk';
 import {Room} from '../entity/Room';
+import {BookingService} from '../services/booking.service';
+import {Booking} from '../entity/Booking';
 
 @Component({
   selector: 'app-room-info',
@@ -54,9 +56,11 @@ export class RoomInfoComponent {
   );
 
   constructor(private readonly roomInfoService: RoomInfoService,
+              private bookingService: BookingService,
               private readonly sharedService: SharedService,
               @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
-              @Inject(Injector) private readonly injector: Injector) { }
+              @Inject(Injector) private readonly injector: Injector) {
+  }
 
   getData(page: number, size: number): Observable<ReadonlyArray<Room | null>> {
     const start = page * size;
@@ -88,12 +92,16 @@ export class RoomInfoComponent {
   }
 
   delete(room: Room): void {
-    this.sharedService.initYesNoDialog(`delete ${room.roomNumber} room`)
-      .pipe(
-        switchMap((res: boolean) =>
-          res ? this.roomInfoService.delete(room) : EMPTY
-        ),
-      ).subscribe((res: Room[]) => this.refreshRooms$.next(true));
+    this.bookingService.getByRoomId(room.id).pipe(
+      switchMap(
+        (booking: Booking) => booking
+          ? this.sharedService.initInfoDialog(`${room.roomNumber} room is used in booking. Delete booking first`)
+          : this.sharedService.initYesNoDialog(`delete ${room.roomNumber} room`)
+      ),
+      switchMap(
+        (res: boolean) => res ? this.roomInfoService.delete(room) : EMPTY
+      )
+    ).subscribe(() => this.refreshRooms$.next(true));
   }
 
   trackByFn(index) {

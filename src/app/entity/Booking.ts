@@ -6,6 +6,7 @@ export class Booking {
   private _id: number;
   private _client: Client;
   private _room: Room;
+  private _roomId: number;
   private _arrivalDate: number;
   private _departureDate: number;
   private _lessor: string;
@@ -35,6 +36,14 @@ export class Booking {
 
   set room(value: Room) {
     this._room = value;
+  }
+
+  get roomId(): number {
+    return this._roomId;
+  }
+
+  set roomId(value: number) {
+    this._roomId = value;
   }
 
   get arrivalDate(): number {

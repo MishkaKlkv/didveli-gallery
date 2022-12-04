@@ -1,4 +1,4 @@
-import {Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
+import {Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, RelationId} from 'typeorm';
 import {Client} from './client.schema';
 import {Room} from './room.schema';
 import {Charge} from "./charge.schema";
@@ -12,9 +12,15 @@ export class Booking {
   @JoinColumn()
   client: Client;
 
+  @Column({ nullable: false })
+  clientId: number;
+
   @ManyToOne(() => Room)
   @JoinColumn()
   room: Room;
+
+  @Column({ nullable: false })
+  roomId: number;
 
   @Column()
   arrivalDate: number;

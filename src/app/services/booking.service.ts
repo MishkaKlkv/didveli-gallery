@@ -4,7 +4,7 @@ import {map, Observable, of, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {Booking} from '../entity/Booking';
 import {Booking as BookingSchema} from '../../../app/model/booking.schema';
-import {Client} from "../entity/Client";
+import {Client} from '../entity/Client';
 
 @Injectable({
   providedIn: 'root'
@@ -45,6 +45,36 @@ export class BookingService {
         const booking = Object.assign(new Booking(), res);
         booking.client = Object.assign(new Client(), res.client);
         return booking;
+      }),
+      catchError((error: any) => throwError(error.json))
+    );
+  }
+
+  getByClientId(clientId: number): Observable<Booking> {
+    return of(this.ipc.sendSync('get-booking-by-client-id', clientId)).pipe(
+      map((res: BookingSchema) => {
+        if (res) {
+          const booking = Object.assign(new Booking(), res);
+          booking.client = Object.assign(new Client(), res.client);
+          return booking;
+        } else {
+          return null;
+        }
+      }),
+      catchError((error: any) => throwError(error.json))
+    );
+  }
+
+  getByRoomId(roomId: number): Observable<Booking | null> {
+    return of(this.ipc.sendSync('get-booking-by-room-id', roomId)).pipe(
+      map((res: BookingSchema) => {
+        if (res) {
+          const booking = Object.assign(new Booking(), res);
+          booking.client = Object.assign(new Client(), res.client);
+          return booking;
+        } else {
+          return null;
+        }
       }),
       catchError((error: any) => throwError(error.json))
     );
