@@ -52,13 +52,13 @@ export class BookingService {
 
   save(booking: Booking): Observable<Booking[]> {
     return of(
-      this.ipc.sendSync('add-booking', booking)
+      this.ipc.sendSync('add-booking', booking.toDto())
     ).pipe(catchError((error: any) => throwError(error.json)));
   }
 
   delete(booking: Booking): Observable<Booking[]> {
     return of(
-      this.ipc.sendSync('delete-booking', booking)
+      this.ipc.sendSync('delete-booking', booking.toDto())
     ).pipe(catchError((error: any) => throwError(error.json)));
   }
 

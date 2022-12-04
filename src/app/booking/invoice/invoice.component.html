@@ -5,100 +5,27 @@
     booking: booking$ | async,
     company: company$ | async
   } as observables">
+  <section *tuiLet="observables.booking as booking">
+    <ng-container *tuiLet="observables.company as company">
+      <div class="no-print">
+        <div class="main">
+          <tui-svg src="tuiIconPrintLarge" (click)="print()"></tui-svg>
+<!--          <button (click)="print()">Print</button>-->
+<!--          hey-->
+        </div>
+      </div>
 
-  <div class="main" *tuiLet="observables.booking as booking">
-    <button (click)="print()">Print</button>
+      <div class="document">
 
-    <main id="invoice" *ngIf="booking" class="page" size="A4">
-      <ng-container *tuiLet="observables.company as company">
-        <header>
-          <img [src]="getLogoLink(company)" [alt]="company?.name" class="invert"/>
-          <hr>
-        </header>
+        <div class="page-header">
+          <img [src]="getLogoLink(company)" [alt]="company?.name" class="invert" (click)="print()"/>
+          <!--      <hr>-->
+          <!--      I'm The Header-->
+          <br/>
+        </div>
 
-        <article>
-          <div class="flex-box">
-            <div class="flex-child"><span class="invoice-title">INVOICE NUMBER</span></div>
-            <div class="flex-child"><span class="invoice-title">{{ booking.id }}</span></div>
-          </div>
-
-          <table class="bill-table">
-            <thead>
-            <tr>
-              <th>Billed to</th>
-              <th>{{ company.name }}</th>
-            </tr>
-            </thead>
-
-            <tbody>
-            <tr>
-              <td>
-                <b>Name:</b> {{ booking.client.fullName }}
-                <br/>
-                <b>Passport:</b> {{ booking.client.passport }}
-                <br/>
-                <b>Citizenship:</b> {{ booking.client.citizenship }}
-                <br/>
-                <b>Arrival Date:</b> {{ booking.arrivalDate | date: 'dd.MM.yyyy' }}
-                <br/>
-                <b>Departure Date:</b> {{ booking.departureDate | date: 'dd.MM.yyyy' }}
-              </td>
-              <td>
-                <b>Address:</b> {{ company.address }}
-                <br/>
-                <b>ID:</b> {{ company.companyId }}
-              </td>
-            </tr>
-            </tbody>
-          </table>
-
-          <table class="service-table">
-            <thead>
-            <tr>
-              <th>Date</th>
-              <th>Description</th>
-              <th>Quantity</th>
-              <th>Unit Price GEL</th>
-              <th>Total GEL</th>
-            </tr>
-            </thead>
-
-            <tbody>
-            <tr *ngFor="let charge of booking.charges">
-              <td>
-                {{ charge.dateOfService | date: 'dd.MM.yyyy' }}
-              </td>
-              <td>
-                {{ charge.chargeName }}
-              </td>
-              <td>
-                {{ charge.quantity }}
-              </td>
-              <td>
-                {{ charge.price | tuiFormatNumber:{decimalLimit: 2} }}
-              </td>
-              <td>
-                {{ getSubtotal(charge) | tuiFormatNumber:{decimalLimit: 2} }}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <b>Subtotal:</b>
-              </td>
-              <td colspan="4">{{ booking.subtotal | tuiFormatNumber:{decimalLimit: 2} }} GEL</td>
-            </tr>
-            <tr>
-              <td>
-                <b>Grand Total:</b>
-              </td>
-              <td colspan="4">{{ booking.total | tuiFormatNumber:{decimalLimit: 2} }} GEL</td>
-            </tr>
-            </tbody>
-          </table>
-        </article>
-
-        <footer>
-          <hr>
+        <div class="page-footer">
+          <!--      <hr>-->
           <div class="flex-box">
             <div class="flex-child">
               <img [src]="getLogoLink(company)" [alt]="company?.name" class="small invert"/>
@@ -109,8 +36,117 @@
               <p>{{ company.email }}</p>
             </div>
           </div>
-        </footer>
-      </ng-container>
-    </main>
-  </div>
+        </div>
+
+        <table>
+
+          <thead>
+          <tr>
+            <td>
+              <!--place holder for the fixed-position header-->
+              <div class="page-header-space"></div>
+            </td>
+          </tr>
+          </thead>
+
+          <tbody>
+          <tr>
+            <td>
+              <!--*** CONTENT GOES HERE ***-->
+              <div class="page">
+                <div class="flex-box">
+                  <div class="flex-child"><span class="invoice-title">INVOICE NUMBER</span></div>
+                  <div class="flex-child"><span class="invoice-title">{{ booking.id }}</span></div>
+                </div>
+
+                <table class="bill-table">
+                  <thead>
+                  <tr>
+                    <th>Billed to</th>
+                    <th>{{ company.name }}</th>
+                  </tr>
+                  </thead>
+
+                  <tbody>
+                  <tr>
+                    <td>
+                      <b>Name:</b> {{ booking.client.fullName }}
+                      <br/>
+                      <b>Passport:</b> {{ booking.client.passport }}
+                      <br/>
+                      <b>Citizenship:</b> {{ booking.client.citizenship }}
+                      <br/>
+                      <b>Arrival Date:</b> {{ booking.arrivalDate | date: 'dd.MM.yyyy' }}
+                      <br/>
+                      <b>Departure Date:</b> {{ booking.departureDate | date: 'dd.MM.yyyy' }}
+                    </td>
+                    <td>
+                      <b>Address:</b> {{ company.address }}
+                      <br/>
+                      <b>ID:</b> {{ company.companyId }}
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+
+                <table class="service-table">
+                  <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Quantity</th>
+                    <th>Unit Price GEL</th>
+                    <th>Total GEL</th>
+                  </tr>
+                  </thead>
+
+                  <tbody>
+                  <tr *ngFor="let charge of booking.charges">
+                    <td>
+                      {{ charge.dateOfService | date: 'dd.MM.yyyy' }}
+                    </td>
+                    <td>
+                      {{ charge.chargeName }}
+                    </td>
+                    <td>
+                      {{ charge.quantity }}
+                    </td>
+                    <td>
+                      {{ charge.price | tuiFormatNumber:{decimalLimit: 2} }}
+                    </td>
+                    <td>
+                      {{ getSubtotal(charge) | tuiFormatNumber:{decimalLimit: 2} }}
+                    </td>
+                  </tr>
+                  <tr class="total-row">
+                    <td colspan="4" class="total-cell">
+                      <b>Subtotal:</b>
+                    </td>
+                    <td>{{ booking.subtotal | tuiFormatNumber:{decimalLimit: 2} }} GEL</td>
+                  </tr>
+                  <tr class="total-row">
+                    <td colspan="4" class="total-cell">
+                      <b>Grand Total:</b>
+                    </td>
+                    <td>{{ booking.total | tuiFormatNumber:{decimalLimit: 2} }} GEL</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+
+          <tfoot>
+          <tr>
+            <td>
+              <div class="page-footer-space"></div>
+            </td>
+          </tr>
+          </tfoot>
+
+        </table>
+      </div>
+    </ng-container>
+  </section>
 </ng-container>

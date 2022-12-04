@@ -6,7 +6,6 @@ export class Client {
   private _passportDate: number;
   private _citizenship: string;
 
-
   get id(): number {
     return this._id;
   }
@@ -57,5 +56,16 @@ export class Client {
 
   get fullName() {
     return `${this._name} ${this._surname}`;
+  }
+
+  public toDto() {
+    return {
+      id: this.id,
+      name: this.name,
+      surname: this.surname,
+      passport: this.passport,
+      passportDate: this.passportDate,
+      citizenship: this.citizenship,
+    };
   }
 }

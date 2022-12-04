@@ -54,7 +54,7 @@ export class Booking {
   }
 
   get lessor(): string {
-    return this._lessor || 'Test';
+    return this._lessor;
   }
 
   set lessor(value: string) {
@@ -107,5 +107,19 @@ export class Booking {
         }
       }, 0
     );
+  }
+
+  public toDto() {
+    return {
+      id: this.id,
+      client: Object.assign({}, this.client.toDto()),
+      room: this.room,
+      arrivalDate: this.arrivalDate,
+      departureDate: this.departureDate,
+      lessor: this.lessor,
+      portal: this.portal,
+      isPassive: this.isPassive,
+      charges: this.charges,
+    };
   }
 }
