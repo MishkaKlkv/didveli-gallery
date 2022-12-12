@@ -81,12 +81,12 @@ export class BookingComponent {
     this.openAddEditBookingDialog('Edit active room', booking);
   }
 
-  passive(booking: Booking): void {
-    this.sharedService.initYesNoDialog(`move to passive room for ${booking.client.name} ${booking.client.surname}`)
+  changeBookingStatus(booking: Booking): void {
+    this.sharedService.initYesNoDialog(`move room ${this.changeModeButtonTitle} for ${booking.client.name} ${booking.client.surname}`)
       .pipe(
         switchMap((res: boolean) => {
           if (res) {
-            booking.isPassive = true;
+            booking.isPassive = !booking.isPassive;
             return this.bookingService.save(booking);
           } else {
             return EMPTY;
@@ -138,6 +138,10 @@ export class BookingComponent {
 
   onPage(page: number): void {
     this.page$.next(page);
+  }
+
+  get changeModeButtonTitle() {
+    return `To ${this.mode === 'active' ? 'passive' : 'active' }`;
   }
 
 }

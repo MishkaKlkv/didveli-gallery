@@ -15,7 +15,7 @@
         <th tuiTh>Lessor</th>
         <th tuiTh>Portal</th>
         <th class="bill-col" tuiTh>Bill</th>
-        <th class="menu-col" tuiTh *ngIf="mode === 'active'"></th>
+        <th class="menu-col" tuiTh></th>
       </tr>
       </thead>
       <tbody tuiTbody>
@@ -47,7 +47,7 @@
             <td class="bill-col" *tuiCell="'bill'" (click)="goToClientOrders(booking)" tuiTd>
               {{ booking.total | tuiFormatNumber:{decimalLimit: 2} }} ₾
             </td>
-            <ng-container *ngIf="mode === 'active'">
+            <ng-container>
               <td *tuiCell="'actions'" tuiTd>
                 <tui-hosted-dropdown #dropdown [content]="content">
                   <button
@@ -61,24 +61,26 @@
 
                 <ng-template #content>
                   <tui-data-list tuiDataListDropdownManager>
-                    <button tuiOption (click)="update(booking)">
-                      Edit
-                    </button>
+                    <ng-container *ngIf="mode === 'active'">
+                      <button tuiOption (click)="update(booking)">
+                        Edit
+                      </button>
 
-                    <button tuiOption (click)="goToClientOrders(booking)">
-                      Add service
-                    </button>
+                      <button tuiOption (click)="goToClientOrders(booking)">
+                        Add service
+                      </button>
 
-                    <button tuiOption (click)="showInvoice(booking)">
-                      Invoice
-                    </button>
+                      <button tuiOption (click)="showInvoice(booking)">
+                        Invoice
+                      </button>
 
-                    <button tuiOption (click)="passive(booking)">
-                      Passive
-                    </button>
+                      <button tuiOption (click)="delete(booking)">
+                        Delete
+                      </button>
+                    </ng-container>
 
-                    <button tuiOption (click)="delete(booking)">
-                      Delete
+                    <button tuiOption (click)="changeBookingStatus(booking)">
+                      {{ changeModeButtonTitle }}
                     </button>
                   </tui-data-list>
                 </ng-template>
