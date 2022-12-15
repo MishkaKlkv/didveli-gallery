@@ -26,8 +26,8 @@ export class BookingService {
     }
   }
 
-  getAll(skip: number, take: number, mode: string = 'active'): Observable<Booking[]> {
-    return of(this.ipc.sendSync('get-bookings', skip, take, this.isPassiveMode(mode))).pipe(
+  getAll(skip: number, take: number, substr: string, mode: string = 'active'): Observable<Booking[]> {
+    return of(this.ipc.sendSync('get-bookings', skip, take, this.isPassiveMode(mode), substr)).pipe(
       map((res: BookingSchema[]) =>
         res.map(entity => {
           const booking = Object.assign(new Booking(), entity);

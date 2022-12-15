@@ -3,7 +3,15 @@
   <app-header [title]="mode + ' Room'"></app-header>
 
   <div class="main">
-    <table class="data-table" tuiTable [columns]="columns">
+      <tui-input
+        class="seacrh"
+        tuiTextfieldSize="m"
+        [tuiTextfieldCleaner]="true"
+        (input)="onSearch(extractValueFromEvent($event))"
+      >
+        Search...
+      </tui-input>
+    <table class="data-table booking" tuiTable [columns]="columns">
       <thead>
       <tr tuiThGroup>
         <th tuiTh>№</th>
@@ -94,6 +102,7 @@
           <td [colSpan]="columns.length">
             <tui-table-pagination
               class="tui-space_top-2"
+              [items]="sizeOptions"
               [total]="(total$ | async) || 0"
               (pageChange)="onPage($event)"
               (sizeChange)="onSize($event)"

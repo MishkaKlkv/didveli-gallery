@@ -28,7 +28,7 @@ function createWindow(): BrowserWindow {
     .then(() => {
       const bookingRepo = AppDataSource.getRepository(Booking);
 
-      ipcMain.on('get-bookings', async (event: any, _skip: number, _take: number, _isPassive: boolean) => {
+      ipcMain.on('get-bookings', async (event: any, _skip: number, _take: number, _isPassive: boolean, substr: string) => {
         try {
           event.returnValue = await bookingRepo
             .createQueryBuilder("booking")
@@ -37,9 +37,12 @@ function createWindow(): BrowserWindow {
             .leftJoinAndSelect("booking.client", "client")
             .leftJoinAndSelect("booking.room", "room")
             .leftJoinAndSelect("booking.charges", "charge")
-            .where({
-              isPassive: _isPassive
-            })
+            .where('(client.name like :q or client.surname like :q)', { q: `%${substr}%` })
+            .andWhere([
+              {
+                isPassive: _isPassive
+              }
+            ])
             .orderBy("room.roomNumber", "ASC")
             .getMany();
         } catch (err) {

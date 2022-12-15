@@ -32,8 +32,10 @@ export class BookingComponent {
   readonly refreshBookings$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   readonly columns = [`index`, `roomNumber`, `guest`, `arrivalDate`, `departureDate`, `owner`, `lessor`,
     `portal`, `bill`, `actions`];
-  readonly size$ = new BehaviorSubject(10);
+  readonly sizeOptions = [10, 20, 50, 100, 200, 300];
+  readonly size$ = new BehaviorSubject(100);
   readonly page$ = new BehaviorSubject(0);
+  readonly searchBooking$ = new BehaviorSubject('');
 
   readonly total$ = this.refreshBookings$.pipe(
     switchMap(_ =>
@@ -47,6 +49,7 @@ export class BookingComponent {
       combineLatest([
         this.page$,
         this.size$,
+        this.searchBooking$
       ]).pipe(
         switchMap(query => this.getData(...query).pipe(startWith(null))),
         share(),
@@ -68,9 +71,13 @@ export class BookingComponent {
     this.route.url.subscribe(params => this.mode = params[0].path);
   }
 
-  getData(page: number, size: number): Observable<ReadonlyArray<Booking | null>> {
+  get changeModeButtonTitle() {
+    return `To ${this.mode === 'active' ? 'passive' : 'active' }`;
+  }
+
+  getData(page: number, size: number, substr: string = ''): Observable<ReadonlyArray<Booking | null>> {
     const start = page * size;
-    return this.bookingService.getAll(start, size, this.mode);
+    return this.bookingService.getAll(start, size, substr, this.mode);
   }
 
   add(): void {
@@ -140,8 +147,12 @@ export class BookingComponent {
     this.page$.next(page);
   }
 
-  get changeModeButtonTitle() {
-    return `To ${this.mode === 'active' ? 'passive' : 'active' }`;
+  onSearch(substr: string) {
+    this.searchBooking$.next(substr);
+  }
+
+  extractValueFromEvent(event: Event): string | null {
+    return (event.target as HTMLInputElement)?.value || '';
   }
 
 }
