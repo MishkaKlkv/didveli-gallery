@@ -37,13 +37,15 @@ function createWindow(): BrowserWindow {
             .leftJoinAndSelect("booking.client", "client")
             .leftJoinAndSelect("booking.room", "room")
             .leftJoinAndSelect("booking.charges", "charge")
+            .addSelect('SUBSTRING(TRIM(room.roomNumber), -3, 5)', 'clearRoomNumber')
             .where('(client.name like :q or client.surname like :q)', { q: `%${substr}%` })
             .andWhere([
               {
                 isPassive: _isPassive
               }
             ])
-            .orderBy("room.roomNumber", "ASC")
+            .orderBy("clearRoomNumber", "ASC")
+            .printSql()
             .getMany();
         } catch (err) {
           throw err;
@@ -239,9 +241,10 @@ function createWindow(): BrowserWindow {
         try {
           event.returnValue = await roomRepo
             .createQueryBuilder("room")
+            .addSelect('SUBSTRING(TRIM(roomNumber), -3, 5)', 'clearRoomNumber')
             .skip(_skip)
             .take(_take)
-            .orderBy("room.roomNumber", "ASC")
+            .orderBy("clearRoomNumber", "ASC")
             .getMany();
         } catch (err) {
           throw err;
