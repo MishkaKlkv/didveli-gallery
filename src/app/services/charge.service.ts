@@ -1,27 +1,16 @@
 import { Injectable } from '@angular/core';
-import {IpcRenderer} from 'electron';
 import {Observable, of, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {Charge} from '../entity/Charge';
+import {IpcRendererService} from './ipc-renderer.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ChargeService {
-
-  // todo вынести в абстрактный сервис?
-  private readonly ipc: IpcRenderer | undefined = void 0;
+export class ChargeService extends IpcRendererService {
 
   constructor() {
-    if (window.require) {
-      try {
-        this.ipc = window.require('electron').ipcRenderer;
-      } catch (e) {
-        throw e;
-      }
-    } else {
-      console.warn('Electron\'s IPC was not loaded');
-    }
+    super();
   }
 
   save(charge: Charge): Observable<Charge[]> {

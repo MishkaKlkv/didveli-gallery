@@ -4,9 +4,8 @@
 
   <div class="main">
       <tui-input
-        class="seacrh"
         tuiTextfieldSize="m"
-        [tuiTextfieldCleaner]="true"
+        [(ngModel)]="search"
         (input)="onSearch(extractValueFromEvent($event))"
       >
         Search...

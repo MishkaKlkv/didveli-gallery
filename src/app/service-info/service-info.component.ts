@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Inject, Injector} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Inject, Injector, OnDestroy} from '@angular/core';
 import {ServiceInfoService} from '../services/service-info.service';
 import {
   BehaviorSubject,
@@ -7,8 +7,8 @@ import {
   map,
   Observable,
   share,
-  startWith,
-  switchMap
+  startWith, Subject,
+  switchMap, takeUntil
 } from 'rxjs';
 import {TuiDialogService} from '@taiga-ui/core';
 import {SharedService} from '../shared/shared.service';
@@ -23,10 +23,12 @@ import {Service} from "../entity/Service";
   styleUrls: ['./service-info.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ServiceInfoComponent {
+export class ServiceInfoComponent implements OnDestroy {
 
-  readonly refreshServices$ = new BehaviorSubject<boolean>(true);
   readonly columns = [`index`, `name`, `price`, `actions`];
+
+  readonly destroy$: Subject<boolean> = new Subject<boolean>();
+  readonly refreshServices$ = new BehaviorSubject<boolean>(true);
   readonly size$ = new BehaviorSubject(10);
   readonly page$ = new BehaviorSubject(0);
 
@@ -85,7 +87,8 @@ export class ServiceInfoComponent {
       .pipe(
         switchMap((res: Service) =>
           res ? this.serviceInfoService.save(res) : EMPTY
-        )
+        ),
+        takeUntil(this.destroy$)
       )
       .subscribe(() => this.refreshServices$.next(true));
   }
@@ -96,7 +99,8 @@ export class ServiceInfoComponent {
         switchMap((res: boolean) =>
           res ? this.serviceInfoService.delete(service) : EMPTY
         ),
-      ).subscribe((res: Service[]) => this.refreshServices$.next(true));
+        takeUntil(this.destroy$)
+      ).subscribe(() => this.refreshServices$.next(true));
   }
 
   trackByFn(index) {
@@ -109,5 +113,10 @@ export class ServiceInfoComponent {
 
   onPage(page: number): void {
     this.page$.next(page);
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }

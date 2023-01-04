@@ -1,29 +1,18 @@
 import { Injectable } from '@angular/core';
-import {IpcRenderer} from 'electron';
 import {map, Observable, of, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {Booking} from '../entity/Booking';
 import {Booking as BookingSchema} from '../../../app/model/booking.schema';
 import {Client} from '../entity/Client';
+import {IpcRendererService} from './ipc-renderer.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class BookingService {
-
-  // todo вынести в абстрактный сервис?
-  private readonly ipc: IpcRenderer | undefined = void 0;
+export class BookingService extends IpcRendererService {
 
   constructor() {
-    if (window.require) {
-      try {
-        this.ipc = window.require('electron').ipcRenderer;
-      } catch (e) {
-        throw e;
-      }
-    } else {
-      console.warn('Electron\'s IPC was not loaded');
-    }
+    super();
   }
 
   getAll(skip: number, take: number, substr: string, mode: string = 'active'): Observable<Booking[]> {

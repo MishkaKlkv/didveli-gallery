@@ -1,10 +1,10 @@
-import {ChangeDetectionStrategy, Component, Inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Inject, OnDestroy} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {CompanyInfoService} from '../services/company-info.service';
 import {TuiAlertService} from '@taiga-ui/core';
 import {Company} from '../entity/Company';
 import {TuiFileLike} from '@taiga-ui/kit';
-import {Observable, of, switchMap, tap} from 'rxjs';
+import {Observable, of, Subject, switchMap, takeUntil, tap} from 'rxjs';
 
 @Component({
   selector: 'app-company-info',
@@ -12,18 +12,18 @@ import {Observable, of, switchMap, tap} from 'rxjs';
   styleUrls: ['./company-info.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CompanyInfoComponent {
+export class CompanyInfoComponent implements OnDestroy {
 
   group: FormGroup = new FormGroup({});
   isEditModeOn = false;
-  loadedFiles$: Observable<TuiFileLike | null>;
   selectedFile: string;
+  loadedFiles$: Observable<TuiFileLike | null>;
+  readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
   readonly company$ = this.companyService.getCompany()
     .pipe(
       tap((company: Company) => {
         this.selectedFile = company.logo;
-        console.log('existing file', this.selectedFile);
         this.group = new FormGroup({
           name: new FormControl(company.name, Validators.required),
           companyId: new FormControl(company?.companyId, Validators.required),
@@ -53,11 +53,13 @@ export class CompanyInfoComponent {
   }
 
   save(company: Company) {
-    //todo unsubscribe
     Object.assign(company, this.group.value);
     company.logo = this.selectedFile;
-    console.log(company);
-    this.companyService.save(company).subscribe(res => {
+    this.companyService.save(company)
+      .pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe(res => {
         const notification = res ? 'Company info saved' : 'Error, try again';
         this.alertService.open(notification).subscribe();
       });
@@ -84,6 +86,11 @@ export class CompanyInfoComponent {
   removeFile(): void {
     this.group.get('logo').setValue(null);
     this.group.get('logoName').setValue(null);
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
 }

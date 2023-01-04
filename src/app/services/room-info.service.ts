@@ -1,26 +1,16 @@
 import { Injectable } from '@angular/core';
-import {IpcRenderer} from 'electron';
 import {Observable, of, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {Room} from '../entity/Room';
+import {IpcRendererService} from './ipc-renderer.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RoomInfoService {
-
-  private readonly ipc: IpcRenderer | undefined = void 0;
+export class RoomInfoService extends IpcRendererService {
 
   constructor() {
-    if (window.require) {
-      try {
-        this.ipc = window.require('electron').ipcRenderer;
-      } catch (e) {
-        throw e;
-      }
-    } else {
-      console.warn('Electron\'s IPC was not loaded');
-    }
+    super();
   }
 
   getAll(skip: number, take: number): Observable<Room[]> {

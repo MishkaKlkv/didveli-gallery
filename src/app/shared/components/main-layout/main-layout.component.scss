@@ -14,36 +14,29 @@ tui-svg {
   margin: 0 20px 0 10px;
 }
 
-// todo настроить расположение
 .sidebar {
   position: fixed;
   width: 18%;
   height: 100vh;
   background: var(--gray);
-  //font-size: 0.65em;
   font-size: 0.8vw;
-
   font-weight: 500;
 }
 
 .nav {
   position: relative;
-  top: 20vw;
-  transform: translateY(-50%);
-}
+  top: 5em;
 
-.nav {
   ul {
     list-style: none;
 
     li {
-      position: relative;
 
       a {
         line-height: 6vw;
         text-transform: uppercase;
         text-decoration: none;
-        padding: 0 30px;
+        padding: 0 20px;
         text-align: left;
         letter-spacing: 0.3em;
         color: var(--light-gray);

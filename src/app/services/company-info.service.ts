@@ -1,28 +1,17 @@
 import { Injectable } from '@angular/core';
-import {IpcRenderer} from 'electron';
 import {map, Observable, of, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {Company} from '../entity/Company';
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
+import {IpcRendererService} from './ipc-renderer.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CompanyInfoService {
+export class CompanyInfoService extends IpcRendererService {
 
-  // todo вынести в абстрактный сервис?
-  private readonly ipc: IpcRenderer | undefined = void 0;
-
-  constructor(private sanitizer: DomSanitizer,) {
-    if (window.require) {
-      try {
-        this.ipc = window.require('electron').ipcRenderer;
-      } catch (e) {
-        throw e;
-      }
-    } else {
-      console.warn('Electron\'s IPC was not loaded');
-    }
+  constructor(private sanitizer: DomSanitizer) {
+    super();
   }
 
   getCompany(): Observable<Company> {

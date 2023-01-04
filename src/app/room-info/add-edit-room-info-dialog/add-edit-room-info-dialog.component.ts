@@ -31,7 +31,6 @@ export class AddEditRoomInfoDialogComponent implements OnInit {
     });
   }
 
-  // // todo абстрактный диалоговый класс
   ok() {
     Object.assign(this.room, this.group.value);
     this.context.completeWith(this.room);

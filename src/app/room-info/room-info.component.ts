@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Inject, Injector} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Inject, Injector, OnDestroy} from '@angular/core';
 import {
   BehaviorSubject,
   combineLatest,
@@ -6,8 +6,8 @@ import {
   filter, map,
   Observable,
   share,
-  startWith,
-  switchMap
+  startWith, Subject,
+  switchMap, takeUntil
 } from 'rxjs';
 import {SharedService} from '../shared/shared.service';
 import {TuiDialogService} from '@taiga-ui/core';
@@ -25,10 +25,12 @@ import {Booking} from '../entity/Booking';
   styleUrls: ['./room-info.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RoomInfoComponent {
+export class RoomInfoComponent implements OnDestroy {
 
-  readonly refreshRooms$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   readonly columns = [`index`, `roomNumber`, `owner`, `phone`, `actions`];
+
+  readonly destroy$: Subject<boolean> = new Subject<boolean>();
+  readonly refreshRooms$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   readonly size$ = new BehaviorSubject(10);
   readonly page$ = new BehaviorSubject(0);
 
@@ -86,7 +88,8 @@ export class RoomInfoComponent {
       },
     )
       .pipe(
-        switchMap((res: Room) => res ? this.roomInfoService.save(res) : EMPTY)
+        switchMap((res: Room) => res ? this.roomInfoService.save(res) : EMPTY),
+        takeUntil(this.destroy$)
       )
       .subscribe(() => this.refreshRooms$.next(true));
   }
@@ -100,7 +103,8 @@ export class RoomInfoComponent {
       ),
       switchMap(
         (res: boolean) => res ? this.roomInfoService.delete(room) : EMPTY
-      )
+      ),
+      takeUntil(this.destroy$)
     ).subscribe(() => this.refreshRooms$.next(true));
   }
 
@@ -114,6 +118,11 @@ export class RoomInfoComponent {
 
   onPage(page: number): void {
     this.page$.next(page);
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
 }

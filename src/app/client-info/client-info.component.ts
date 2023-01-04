@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Inject, Injector} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Inject, Injector, OnDestroy} from '@angular/core';
 import {
   BehaviorSubject,
   combineLatest,
@@ -6,8 +6,8 @@ import {
   filter, map,
   Observable,
   share,
-  startWith,
-  switchMap
+  startWith, Subject,
+  switchMap, takeUntil
 } from 'rxjs';
 import {SharedService} from '../shared/shared.service';
 import {TuiDialogService} from '@taiga-ui/core';
@@ -25,10 +25,12 @@ import {BookingService} from '../services/booking.service';
   styleUrls: ['./client-info.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ClientInfoComponent {
+export class ClientInfoComponent implements OnDestroy {
 
-  readonly refreshClients$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   readonly columns = [`index`, `name`, `surname`, `passport`, `passportDate`, `citizenship`, `actions`];
+
+  readonly destroy$: Subject<boolean> = new Subject<boolean>();
+  readonly refreshClients$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   readonly size$ = new BehaviorSubject(10);
   readonly page$ = new BehaviorSubject(0);
 
@@ -84,7 +86,8 @@ export class ClientInfoComponent {
       ),
       switchMap(
         (res: boolean) => res ? this.clientInfoService.delete(client) : EMPTY
-      )
+      ),
+      takeUntil(this.destroy$)
     ).subscribe(() => this.refreshClients$.next(true));
   }
 
@@ -99,7 +102,8 @@ export class ClientInfoComponent {
       },
     )
       .pipe(
-        switchMap((res: Client) => res ? this.clientInfoService.save(res) : EMPTY)
+        switchMap((res: Client) => res ? this.clientInfoService.save(res) : EMPTY),
+        takeUntil(this.destroy$)
       )
       .subscribe(() => this.refreshClients$.next(true));
   }
@@ -114,6 +118,11 @@ export class ClientInfoComponent {
 
   onPage(page: number): void {
     this.page$.next(page);
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
 }

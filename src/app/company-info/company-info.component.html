@@ -2,8 +2,6 @@
 
 <div class="main" *tuiLet="company$ | async as company">
 <ng-container *ngIf="company">
-  <!--  <pre class="tui-space_bottom-3">{{ company$ | async | json }}</pre>-->
-  <!--  {{ isEditModeOn ? 'Disable edit' : 'Enable edit' }}-->
   <tui-toggle
     [(ngModel)]="isEditModeOn"
     size="l"
@@ -73,7 +71,7 @@
       formControlName="logo"
     ></tui-input-files>
 
-    <tui-files class="tui-space_top-1">
+    <tui-files class="tui-space_vertical-3">
       <tui-file
         *ngIf="loadedFiles$ | async as file"
         [file]="file"

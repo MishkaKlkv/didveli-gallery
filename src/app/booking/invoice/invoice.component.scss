@@ -37,10 +37,6 @@ tui-svg {
 .page {
   page-break-after: always;
   background: white;
-  //min-height: 100vh;
-  //margin: 0 auto 0.5cm;
-  //display: flex;
-  //flex-direction: column;
 }
 
 @page {
@@ -83,40 +79,6 @@ tui-svg {
     box-shadow: none;
   }
 }
-
-
-//@media print {
-//  body * {
-//    visibility: hidden;
-//  }
-//  #invoice, #invoice * {
-//    visibility: visible;
-//  }
-//  #invoice {
-//    position: absolute;
-//    left: 0;
-//    top: 0;
-//  }
-//  footer {
-//
-//  }
-//}
-//
-//.page {
-//  background: white;
-//  //display: block;
-//  min-height: 100vh;
-//  margin: 0 auto 0.5cm;
-//  //padding: 1.5cm 1.5cm 1.5cm 1.5cm;
-//  //box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
-//  display: flex;
-//  flex-direction: column;
-//}
-//
-//.page[size="A4"] {
-//  width: 21cm;
-//  //height: 29.7cm;
-//}
 
 .flex-box {
   display: flex;

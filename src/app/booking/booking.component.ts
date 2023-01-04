@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Inject, Injector} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Inject, Injector, OnDestroy} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
   BehaviorSubject,
@@ -8,8 +8,8 @@ import {
   map,
   Observable,
   share,
-  startWith,
-  switchMap
+  startWith, Subject,
+  switchMap, takeUntil
 } from 'rxjs';
 import {tuiIsPresent} from '@taiga-ui/cdk';
 import {BookingService} from '../services/booking.service';
@@ -26,16 +26,18 @@ import {Booking} from '../entity/Booking';
   styleUrls: ['./booking.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BookingComponent {
+export class BookingComponent implements OnDestroy{
 
   mode: string;
-  readonly refreshBookings$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+  search: string;
   readonly columns = [`index`, `roomNumber`, `guest`, `arrivalDate`, `departureDate`, `owner`, `lessor`,
     `portal`, `bill`, `actions`];
+  readonly refreshBookings$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   readonly sizeOptions = [10, 20, 50, 100, 200, 300];
-  readonly size$ = new BehaviorSubject(100);
+  readonly size$ = new BehaviorSubject(10);
   readonly page$ = new BehaviorSubject(0);
   readonly searchBooking$ = new BehaviorSubject('');
+  readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
   readonly total$ = this.refreshBookings$.pipe(
     switchMap(_ =>
@@ -99,6 +101,7 @@ export class BookingComponent {
             return EMPTY;
           }
         }),
+        takeUntil(this.destroy$)
       ).subscribe((res: Booking[]) => this.refreshBookings$.next(true));
   }
 
@@ -108,6 +111,7 @@ export class BookingComponent {
         switchMap((res: boolean) =>
           res ? this.bookingService.delete(booking) : EMPTY
         ),
+        takeUntil(this.destroy$)
       ).subscribe((res: Booking[]) => this.refreshBookings$.next(true));
   }
 
@@ -122,7 +126,8 @@ export class BookingComponent {
       },
     )
       .pipe(
-        switchMap((res: Booking) => res ? this.bookingService.save(res) : EMPTY)
+        switchMap((res: Booking) => res ? this.bookingService.save(res) : EMPTY),
+        takeUntil(this.destroy$)
       )
       .subscribe(() => this.refreshBookings$.next(true));
   }
@@ -153,6 +158,11 @@ export class BookingComponent {
 
   extractValueFromEvent(event: Event): string | null {
     return (event.target as HTMLInputElement)?.value || '';
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
 }

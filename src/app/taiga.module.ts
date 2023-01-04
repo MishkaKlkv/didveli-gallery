@@ -51,7 +51,6 @@ const taigaModules = [
   TuiInputNumberModule,
   TuiFormatPhonePipeModule,
   TuiInputFilesModule,
-  // TuiPdfViewerModule
 ];
 
 @NgModule({

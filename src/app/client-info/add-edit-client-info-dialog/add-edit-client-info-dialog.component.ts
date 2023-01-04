@@ -49,9 +49,6 @@ export class AddEditClientInfoDialogComponent implements OnInit {
   }
 
   initCitizenshipDropdown() {
-    // todo используется share для двойной подписки из-за бага, который создан тут:
-    // https://github.com/Tinkoff/taiga-ui/issues/3045
-    // убрать share и async pipe в ngFor, когда пофиксят
     this.citizenship$ = tuiControlValue<string>(this.group.get('citizenship')).pipe(
       map(value => {
         const filtered = citizenship.filter(user => TUI_DEFAULT_MATCHER(user, value));
@@ -61,14 +58,11 @@ export class AddEditClientInfoDialogComponent implements OnInit {
         ) {
           return filtered;
         }
-
         return [];
-      }),
-      share(),
+      })
     );
   }
 
-  // todo абстрактный диалоговый класс
   ok() {
     Object.assign(this.client, this.group.value);
     this.client.passportDate = this.client.passportDate.valueOf();

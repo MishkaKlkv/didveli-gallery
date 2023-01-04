@@ -77,7 +77,6 @@ export class AddEditBookingDialogComponent implements OnInit {
     return (event.target as HTMLInputElement)?.value || null;
   }
 
-  // todo абстрактный диалоговый класс
   ok() {
     Object.assign(this.booking, this.group.value);
     this.booking.arrivalDate = this.booking.arrivalDate?.valueOf();

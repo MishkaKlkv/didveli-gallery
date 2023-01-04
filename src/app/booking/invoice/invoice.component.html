@@ -10,8 +10,6 @@
       <div class="no-print">
         <div class="main">
           <tui-svg src="tuiIconPrintLarge" (click)="print()"></tui-svg>
-<!--          <button (click)="print()">Print</button>-->
-<!--          hey-->
         </div>
       </div>
 
@@ -19,13 +17,10 @@
 
         <div class="page-header">
           <img [src]="getLogoLink(company)" [alt]="company?.name" class="invert" (click)="print()"/>
-          <!--      <hr>-->
-          <!--      I'm The Header-->
           <br/>
         </div>
 
         <div class="page-footer">
-          <!--      <hr>-->
           <div class="flex-box">
             <div class="flex-child">
               <img [src]="getLogoLink(company)" [alt]="company?.name" class="small invert"/>
@@ -43,7 +38,6 @@
           <thead>
           <tr>
             <td>
-              <!--place holder for the fixed-position header-->
               <div class="page-header-space"></div>
             </td>
           </tr>
@@ -52,7 +46,6 @@
           <tbody>
           <tr>
             <td>
-              <!--*** CONTENT GOES HERE ***-->
               <div class="page">
                 <div class="flex-box">
                   <div class="flex-child"><span class="invoice-title">INVOICE NUMBER</span></div>
@@ -146,7 +139,6 @@
             </td>
           </tr>
           </tfoot>
-
         </table>
       </div>
     </ng-container>

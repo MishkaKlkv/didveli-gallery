@@ -11,7 +11,7 @@ import {APP_CONFIG} from '../environments/environment';
 export class AppComponent {
   constructor(
     private electronService: ElectronService) {
-    // todo del
+
     console.log('APP_CONFIG', APP_CONFIG);
 
     if (electronService.isElectron) {

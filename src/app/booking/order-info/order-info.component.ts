@@ -1,7 +1,7 @@
-import {ChangeDetectionStrategy, Component, Inject, Injector, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Inject, Injector, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {BookingService} from '../../services/booking.service';
-import {BehaviorSubject, EMPTY, Observable, switchMap, tap} from 'rxjs';
+import {BehaviorSubject, EMPTY, Observable, Subject, switchMap, takeUntil} from 'rxjs';
 import {PolymorpheusComponent} from '@tinkoff/ng-polymorpheus';
 import {SharedService} from '../../shared/shared.service';
 import {TuiAlertService, TuiDialogService} from '@taiga-ui/core';
@@ -9,15 +9,6 @@ import {ChargeService} from '../../services/charge.service';
 import {AddEditOrderDialogComponent} from './add-edit-order-dialog/add-edit-order-dialog.component';
 import {Booking} from '../../entity/Booking';
 import {Charge} from '../../entity/Charge';
-import {TuiPdfViewerOptions, TuiPdfViewerService} from '@taiga-ui/kit';
-import {TuiDialog} from '@taiga-ui/cdk';
-
-export type Buttons = ReadonlyArray<
-  Readonly<{
-    text: string;
-    onClick(context: TuiDialog<TuiPdfViewerOptions<Buttons>, string>): void;
-  }>
-  >;
 
 @Component({
   selector: 'app-order-info',
@@ -25,11 +16,12 @@ export type Buttons = ReadonlyArray<
   styleUrls: ['./order-info.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OrderInfoComponent implements OnInit {
+export class OrderInfoComponent implements OnInit, OnDestroy {
 
   mode: string;
   id: number;
   booking$: Observable<Booking>;
+  readonly destroy$: Subject<boolean> = new Subject<boolean>();
   readonly refreshCharges$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   readonly columns = [`index`, `chargeName`, `price`, `quantity`, `dateOfService`, `subtotal`, `actions`];
   readonly options = {updateOn: `blur`} as const;
@@ -42,8 +34,7 @@ export class OrderInfoComponent implements OnInit {
               @Inject(Injector) private readonly injector: Injector,
 
               @Inject(TuiAlertService)
-              private readonly alertService: TuiAlertService,
-              @Inject(TuiPdfViewerService) private readonly pdfService: TuiPdfViewerService,) {
+              private readonly alertService: TuiAlertService) {
     this.route.params.subscribe(params => {
       this.mode = params.mode;
       this.id = +params.id;
@@ -71,6 +62,7 @@ export class OrderInfoComponent implements OnInit {
         switchMap((res: boolean) =>
           res ? this.chargeService.delete(charge) : EMPTY
         ),
+        takeUntil(this.destroy$)
       ).subscribe((res: Charge[]) => this.refreshCharges$.next(true));
   }
 
@@ -92,7 +84,8 @@ export class OrderInfoComponent implements OnInit {
           } else {
             return EMPTY;
           }
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe(() => this.refreshCharges$.next(true));
   }
@@ -101,25 +94,9 @@ export class OrderInfoComponent implements OnInit {
     return price * quantity;
   }
 
-  // show(): void {
-  //   const options: TuiPdfViewerOptions<Buttons> = {
-  //     label: `Taiga UI`,
-  //     actions: new PolymorpheusComponent(InvoiceComponent),
-  //     data: [
-  //       {
-  //         text: `Sign`,
-  //         onClick: context => context.completeWith(`Document signed`),
-  //       },
-  //       {
-  //         text: `Deny`,
-  //         onClick: context => context.completeWith(`Document denied`),
-  //       },
-  //     ],
-  //   };
-  //
-  //   this.pdfService
-  //     .open<string>(new PolymorpheusComponent(PdfContent), options)
-  //     .pipe(switchMap(response => this.alertService.open(response)))
-  //     .subscribe();
-  // }
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
 }

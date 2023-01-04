@@ -266,7 +266,6 @@ function createWindow(): BrowserWindow {
         }
       });
 
-      //todo при редактировании делать версию
       ipcMain.on('add-room', async (event: any, _room: Room) => {
         try {
           const room = await roomRepo.create(_room);
@@ -277,7 +276,6 @@ function createWindow(): BrowserWindow {
         }
       });
 
-      // todo не удалять на совсем
       ipcMain.on('delete-room', async (event: any, _room: Room) => {
         try {
           const room = await roomRepo.create(_room);

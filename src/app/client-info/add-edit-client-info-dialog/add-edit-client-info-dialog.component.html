@@ -31,7 +31,7 @@
     <ng-container *ngIf="items?.length">
       <tui-data-list *tuiDataList>
         <button
-          *ngFor="let item of citizenship$ | async"
+          *ngFor="let item of items"
           tuiOption
           [value]="item"
         >
